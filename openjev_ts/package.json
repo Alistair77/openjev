@@ -1,0 +1,7 @@
+{
+  "name": "@openjev/client",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": "./src/index.ts",
+  "description": "Lightweight TypeScript client for the OpenJev v1 HTTP contract."
+}

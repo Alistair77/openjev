@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="400" viewBox="0 0 760 400" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="760" height="400" fill="#0e1116"/>
+<text x="30" y="30" fill="#f2f4f8" font-size="18" font-weight="bold">Research scorer training (real run, 30 epochs, lr=1.0)</text>
+<line x1="60" y1="40" x2="60" y2="320" stroke="#30363d"/>
+<line x1="60" y1="320" x2="720" y2="320" stroke="#30363d"/>
+<polyline points="60.0,81.0 82.8,91.7 105.5,101.7 128.3,110.3 151.0,119.3 173.8,127.3 196.6,135.2 219.3,143.2 242.1,150.8 264.8,157.4 287.6,164.8 310.3,171.2 333.1,178.1 355.9,183.8 378.6,190.0 401.4,196.1 424.1,201.5 446.9,207.4 469.7,212.5 492.4,217.8 515.2,223.1 537.9,227.7 560.7,233.3 583.4,237.3 606.2,241.8 629.0,246.5 651.7,250.7 674.5,255.0 697.2,259.1 720.0,263.1" fill="none" stroke="#2f81f7" stroke-width="2.5"/>
+<polyline points="60.0,298.5 82.8,298.5 105.5,298.5 128.3,147.7 151.0,147.7 173.8,147.7 196.6,147.7 219.3,147.7 242.1,147.7 264.8,147.7 287.6,147.7 310.3,61.5 333.1,61.5 355.9,61.5 378.6,61.5 401.4,61.5 424.1,61.5 446.9,61.5 469.7,61.5 492.4,61.5 515.2,61.5 537.9,61.5 560.7,61.5 583.4,61.5 606.2,61.5 629.0,61.5 651.7,61.5 674.5,61.5 697.2,61.5 720.0,61.5" fill="none" stroke="#3fb950" stroke-width="2.5" stroke-dasharray="6 3"/>
+<circle cx="60.0" cy="81.0" r="4" fill="#2f81f7"/>
+<circle cx="720.0" cy="263.1" r="4" fill="#2f81f7"/>
+<text x="60" y="375" fill="#9aa4b2" font-size="12">epoch 1 (loss 0.691, val acc 0.45)</text>
+<text x="420" y="375" fill="#9aa4b2" font-size="12">epoch 30 (loss 0.431, val acc 1.00)</text>
+<text x="60" y="392" fill="#7fb3ff" font-size="12">blue solid = train loss (0.691 to 0.431)</text>
+<text x="300" y="392" fill="#7ee787" font-size="12">green dashed = validation top-1 (0.45 to 1.00)</text>
+</svg>

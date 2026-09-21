@@ -1,0 +1,373 @@
+{
+  "checkpoint": "runs/demo/model.json",
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.6913697853004066,
+      "validation": {
+        "top1_accuracy": 0.45,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6805550856167061,
+        "brier_score": 0.48742593084824914,
+        "expected_calibration_error": 0.06314689586791117,
+        "mean_latency_ms": 0.10186039999098284
+      }
+    },
+    {
+      "epoch": 2,
+      "loss": 0.6761210121252067,
+      "validation": {
+        "top1_accuracy": 0.45,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6689913403616,
+        "brier_score": 0.4759629330630828,
+        "expected_calibration_error": 0.07429497975486704,
+        "mean_latency_ms": 0.08996044998639263
+      }
+    },
+    {
+      "epoch": 3,
+      "loss": 0.6618700015150467,
+      "validation": {
+        "top1_accuracy": 0.45,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6588358113290623,
+        "brier_score": 0.46605578617765087,
+        "expected_calibration_error": 0.08612624436418098,
+        "mean_latency_ms": 0.0983958500000881
+      }
+    },
+    {
+      "epoch": 4,
+      "loss": 0.6496361823548562,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6457486189024368,
+        "brier_score": 0.45307743808117606,
+        "expected_calibration_error": 0.26393158140754797,
+        "mean_latency_ms": 0.0923333500395529
+      }
+    },
+    {
+      "epoch": 5,
+      "loss": 0.6366441274602009,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6316930942894959,
+        "brier_score": 0.4390066270858705,
+        "expected_calibration_error": 0.2618912472317865,
+        "mean_latency_ms": 0.0926499998968211
+      }
+    },
+    {
+      "epoch": 6,
+      "loss": 0.6252754947068662,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6206283973798298,
+        "brier_score": 0.4281671963153542,
+        "expected_calibration_error": 0.2558854304167908,
+        "mean_latency_ms": 0.09641044998716097
+      }
+    },
+    {
+      "epoch": 7,
+      "loss": 0.6139441819553654,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6103701404710965,
+        "brier_score": 0.4182255366856064,
+        "expected_calibration_error": 0.24949524403046283,
+        "mean_latency_ms": 0.09049790005519753
+      }
+    },
+    {
+      "epoch": 8,
+      "loss": 0.6025672613920638,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.6000804298040638,
+        "brier_score": 0.40823302114367,
+        "expected_calibration_error": 0.24423076604524221,
+        "mean_latency_ms": 0.09406455010321224
+      }
+    },
+    {
+      "epoch": 9,
+      "loss": 0.5917746394166831,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5909816881138391,
+        "brier_score": 0.3995963996476354,
+        "expected_calibration_error": 0.23794679430063292,
+        "mean_latency_ms": 0.09035625007527415
+      }
+    },
+    {
+      "epoch": 10,
+      "loss": 0.5822603587246922,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5793328832522116,
+        "brier_score": 0.3880352790397237,
+        "expected_calibration_error": 0.23586304720063844,
+        "mean_latency_ms": 0.08992295006464701
+      }
+    },
+    {
+      "epoch": 11,
+      "loss": 0.5717428360066036,
+      "validation": {
+        "top1_accuracy": 0.8,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5705473159253728,
+        "brier_score": 0.379732041592855,
+        "expected_calibration_error": 0.23029687080366176,
+        "mean_latency_ms": 0.09068959989235736
+      }
+    },
+    {
+      "epoch": 12,
+      "loss": 0.5625767416128238,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5592097333880209,
+        "brier_score": 0.3684572818436137,
+        "expected_calibration_error": 0.4260450947284178,
+        "mean_latency_ms": 0.0895291499546147
+      }
+    },
+    {
+      "epoch": 13,
+      "loss": 0.5526459648226646,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5521080647056498,
+        "brier_score": 0.3620761173969891,
+        "expected_calibration_error": 0.42133351828365206,
+        "mean_latency_ms": 0.09352295001008315
+      }
+    },
+    {
+      "epoch": 14,
+      "loss": 0.5446248865313205,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5424204394458515,
+        "brier_score": 0.3526671114544976,
+        "expected_calibration_error": 0.41582559635144173,
+        "mean_latency_ms": 0.08817500001896406
+      }
+    },
+    {
+      "epoch": 15,
+      "loss": 0.5357457512302359,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5343863183461206,
+        "brier_score": 0.3451652851111674,
+        "expected_calibration_error": 0.41089499064440305,
+        "mean_latency_ms": 0.09290835005231202
+      }
+    },
+    {
+      "epoch": 16,
+      "loss": 0.5270295553510755,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5241527193331562,
+        "brier_score": 0.33507049739840067,
+        "expected_calibration_error": 0.4051962073088579,
+        "mean_latency_ms": 0.090179149992764
+      }
+    },
+    {
+      "epoch": 17,
+      "loss": 0.519233439432318,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5160551541174514,
+        "brier_score": 0.3274521423900293,
+        "expected_calibration_error": 0.4002773502678787,
+        "mean_latency_ms": 0.08976250010164222
+      }
+    },
+    {
+      "epoch": 18,
+      "loss": 0.5109266840975869,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5095107853994328,
+        "brier_score": 0.32162077847244236,
+        "expected_calibration_error": 0.3959938677908044,
+        "mean_latency_ms": 0.09070835003512911
+      }
+    },
+    {
+      "epoch": 19,
+      "loss": 0.5036282847121819,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.5015273534008301,
+        "brier_score": 0.31408900765144016,
+        "expected_calibration_error": 0.39117144603672793,
+        "mean_latency_ms": 0.09016670010169037
+      }
+    },
+    {
+      "epoch": 20,
+      "loss": 0.49603203007608737,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.4947298600186837,
+        "brier_score": 0.3079259605007515,
+        "expected_calibration_error": 0.3868386374211136,
+        "mean_latency_ms": 0.09023749989864882
+      }
+    },
+    {
+      "epoch": 21,
+      "loss": 0.488479173489356,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.4883729236263047,
+        "brier_score": 0.30225978195829445,
+        "expected_calibration_error": 0.3827089000339836,
+        "mean_latency_ms": 0.08946875004767207
+      }
+    },
+    {
+      "epoch": 22,
+      "loss": 0.48184487899884015,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.48004860090929646,
+        "brier_score": 0.2942605521668771,
+        "expected_calibration_error": 0.37779112979280105,
+        "mean_latency_ms": 0.09146454995061504
+      }
+    },
+    {
+      "epoch": 23,
+      "loss": 0.4738857844417597,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.47151784068635144,
+        "brier_score": 0.286022319700643,
+        "expected_calibration_error": 0.3727333892816068,
+        "mean_latency_ms": 0.09423749997949926
+      }
+    },
+    {
+      "epoch": 24,
+      "loss": 0.4681335505011719,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.4649905301760063,
+        "brier_score": 0.28010425852112003,
+        "expected_calibration_error": 0.3685649833656396,
+        "mean_latency_ms": 0.0996750000922475
+      }
+    },
+    {
+      "epoch": 25,
+      "loss": 0.46168319056622137,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.4589670829479222,
+        "brier_score": 0.27473352667587403,
+        "expected_calibration_error": 0.3646586061653067,
+        "mean_latency_ms": 0.0967125000897795
+      }
+    },
+    {
+      "epoch": 26,
+      "loss": 0.45506205565796315,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.45230686453059993,
+        "brier_score": 0.26863913878048845,
+        "expected_calibration_error": 0.36043404075473207,
+        "mean_latency_ms": 0.09664584995334735
+      }
+    },
+    {
+      "epoch": 27,
+      "loss": 0.4489316912945897,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.44722568962893083,
+        "brier_score": 0.2643282996530144,
+        "expected_calibration_error": 0.35699317731537605,
+        "mean_latency_ms": 0.09208544997818535
+      }
+    },
+    {
+      "epoch": 28,
+      "loss": 0.44281426961092724,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.4408038100452454,
+        "brier_score": 0.25847646520379086,
+        "expected_calibration_error": 0.35290065650952285,
+        "mean_latency_ms": 0.145814600000449
+      }
+    },
+    {
+      "epoch": 29,
+      "loss": 0.4369671777266507,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.4355532914799382,
+        "brier_score": 0.25393970446069475,
+        "expected_calibration_error": 0.3493966065781277,
+        "mean_latency_ms": 0.09099790004256647
+      }
+    },
+    {
+      "epoch": 30,
+      "loss": 0.43122670661913126,
+      "validation": {
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0,
+        "log_loss": 0.4300939239690799,
+        "brier_score": 0.24915910422622173,
+        "expected_calibration_error": 0.34579095481959343,
+        "mean_latency_ms": 0.0926729499042267
+      }
+    }
+  ],
+  "shuffled_context_control": {
+    "top1_accuracy": 0.3,
+    "top3_accuracy": 1.0,
+    "log_loss": 0.8891429499437852,
+    "brier_score": 0.6776581602259253,
+    "expected_calibration_error": 0.3542090451804065,
+    "mean_latency_ms": 0.08814165012154263
+  }
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "OpenJev"
+  short_description: "Design inspectable AI decisions"
+  default_prompt: "Use $openjev to turn this constrained judgment into atomic typed decisions with confidence and abstention."
+policy:
+  allow_implicit_invocation: true

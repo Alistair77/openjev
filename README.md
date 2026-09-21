@@ -1,0 +1,272 @@
+# OpenJev — open, local-first typed decision intelligence
+
+OpenJev turns a messy judgment call into a **typed, inspectable decision**: you send one
+*state* plus named questions, and you get back **probabilities, confidence, abstention,
+and an audit trace** — instead of a paragraph of prose you have to parse and trust.
+
+- **3 question types**: `choice` (pick one named option), `score` (place state on ordered
+  descriptive levels), `noul` (is this statement true, 0→1).
+- **Honest abstention**: confidence is `1 − normalized entropy` of the distribution. When it
+  falls below your `abstain_below` threshold, the answer says so explicitly instead of
+  guessing loudly.
+- **Local-first**: the default backend is a deterministic lexical baseline. No API key, no
+  network, sub-millisecond latency, full trace per question.
+- **Trainable research track**: an independent option-conditioned byte scorer you can train
+  from JSONL (`openjev train` / `openjev eval`), with accuracy, log-loss, Brier, ECE, and a
+  shuffled-context control reported out of the box.
+- **Full surfaces**: FastAPI + local playground + OpenAPI schema, `openjev` CLI, TypeScript
+  SDK (`openjev_ts`), Claude Code adapter + reusable agent skill, Dockerfile.
+
+![System architecture](docs/img/architecture.svg)
+![Request lifecycle and abstention rule](docs/img/lifecycle.svg)
+
+> **Credit & scope.** OpenJev is *inspired by the public interface idea* behind Jev /
+> GEV-Jeff-style typed decision APIs (state in, calibrated typed judgments out). It is an
+> **independent clean-room implementation**: it contains **no proprietary weights, data, or
+> service code**, and makes **no claim of equivalence** to any commercial system. The
+> architecture it is based on is its own: a versioned Pydantic decision envelope over
+> pluggable backends, with an option-conditioned byte-interaction scorer for the research
+> track. "GEV Jeff" is credited here purely as the conceptual inspiration for asking
+> models for *decisions with probabilities* rather than prose.
+
+---
+
+## 1. How it works (the 60-second version)
+
+```
+state (any JSON) ──▶ validate (Pydantic v1 envelope) ──▶ backend ──▶ per-question answers
+                                                              │
+                         ┌────────────────────────────────────┘
+                         ▼
+              probabilities (sum to 1) + confidence + abstained? + alternatives + margin + trace
+```
+
+1. You describe the **situation** once (`state`: a string, dict, anything JSON-serializable).
+2. You ask **one question per dimension**, each with a fixed type and criteria written by you:
+   - `choice`: `criteria` is a map of `option_name → description` (min 2 options).
+   - `score`: `criteria` is an ordered list of 2–10 descriptive levels.
+   - `noul`: just `instructions` stating the claim to test.
+3. Each backend scores every option, normalizes with **softmax** into a distribution, and
+   derives **confidence = 1 − normalized entropy** (1.0 = single peak, 0.0 = uniform).
+4. If `confidence < abstain_below`, that answer is marked `abstained: true` with a reason
+   (`"distribution is too diffuse"` / `"evidence is balanced"`) — the system refuses to
+   pretend it knows.
+5. Every answer carries `alternatives` (top-k), `margin` (gap between 1st and 2nd), a
+   `calibration` note, and each question leaves a `TraceEvent` (backend, `latency_ms`).
+
+**The golden rule:** one question per dimension, then combine decisions in *your* code.
+Confidence describes how concentrated the distribution is — it is **not** proof the answer
+is correct.
+
+---
+
+## 2. Quick start
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev,research]'
+
+# Evaluate the bundled support-ticket example (local backend, offline)
+openjev evaluate examples/support_ticket.json
+
+# Serve the API + playground
+openjev serve
+# → http://127.0.0.1:8787  (playground)   /docs (OpenAPI)   /health
+```
+
+Python SDK:
+
+```python
+import asyncio
+from openjev import OpenJev
+
+async def main():
+    jev = OpenJev()  # local backend by default; OPENJEV_BACKEND=mock|remote|research|openai-compatible
+    response = await jev.evaluate({
+        "state": "Charged twice again. I need my money back.",
+        "questions": {
+            "department": {
+                "type": "choice",
+                "instructions": "Which team handles this?",
+                "criteria": {
+                    "billing": "Charges, invoices, duplicate charges, refunds.",
+                    "technical": "Bugs, crashes, errors, product failures.",
+                },
+            },
+            "refund_requested": {"type": "noul", "instructions": "The customer explicitly requests a refund."},
+        },
+        "options": {"abstain_below": 0.25, "top_k": 2},
+    })
+    print(response.answers["department"].choice)   # billing
+    print(response.answers["refund_requested"].noul)  # ~0.91
+
+asyncio.run(main())
+```
+
+---
+
+## 3. Live capture: what a real response looks like
+
+Served locally (`uvicorn openjev.api:app`, port 8787) and captured verbatim — full JSON is in
+[`docs/captures/evaluate_support_ticket.json`](docs/captures/evaluate_support_ticket.json),
+OpenAPI schema in [`docs/captures/openapi.json`](docs/captures/openapi.json).
+
+Request (`examples/support_ticket.json`): a double-charge refund ticket with three questions —
+`department` (choice: billing/technical/other), `urgency` (score over 3 levels),
+`refund_requested` (noul).
+
+| Question | Result | Reading |
+|---|---|---|
+| `department` | `billing` 0.719, other 0.256, technical 0.025 · conf **0.383** · margin 0.463 | Correct route, decisive margin, no abstention |
+| `urgency` | 0.477 / 0.046 / 0.477 · conf **0.228** · margin 0.0 · **abstained** | Perfect tie between "routine" and "priority" → the engine *refuses* instead of flipping a coin |
+| `refund_requested` | true **0.912** · conf **0.569** · margin 0.824 | Clear explicit refund ask, high concentration |
+
+Total backend time: **~0.39 ms** for all three questions. The `urgency` abstention is the
+feature, not a bug: with `abstain_below: 0.25`, a bimodal 47/47 split *should* come back
+honest.
+
+Robustness probes (same build):
+
+| Probe | Outcome |
+|---|---|
+| "I was charged twice, need refund" → billing vs technical | `billing` 0.952, conf 0.72 |
+| "app crashes on startup with error" → billing vs technical | `technical` 0.952, conf 0.72 |
+| "hello world" (no signal) | 0.50 / 0.50, conf 0.0 → **abstained** |
+
+---
+
+## 4. Backends
+
+| Backend | Env / flag | What it is | Use when |
+|---|---|---|---|
+| `local` (default) | `OPENJEV_BACKEND=local` | Deterministic lexical-overlap baseline with normalization-term expansion (`charged→charge`, `twice→duplicate`, …). Offline, no key. | Demos, tests, safe development, narrow routing |
+| `mock` | `mock` | Fixed deterministic probability fixture | Contract tests, UI work without logic |
+| `research` | `research` + `OPENJEV_RESEARCH_CHECKPOINT=path/model.json` | Locally trained option-conditioned byte scorer (this repo's trainable track) | You trained a checkpoint and want it served behind the same API |
+| `openai-compatible` | `openai-compatible` | Adapter for hosted chat-completions providers | You want a hosted LLM behind the typed envelope |
+| `remote` | `remote` | Forwards the versioned request to another OpenJev-compatible endpoint | Splitting / scaling deployments |
+
+The local backend is intentionally **not** a semantic model: it matches tokens between state
+and your criteria text, so wording matters. That is its contract — predictable, instant,
+auditable — and why the research track exists for learning from data.
+
+---
+
+## 5. Research track: trainable scorer (with real numbers)
+
+The research package is a compact **option-conditioned byte-interaction** model: byte
+histograms of context and option interact through a learned weight vector, normalized by
+softmax. Same architecture serves `choice`, `score` (levels become options), and `noul`
+(claim vs. its negation).
+
+```bash
+# Train (defaults: 30 epochs, lr 1.0 — fixed after finding v1 underfit at 15/0.2)
+openjev train docs/captures/train_demo.jsonl \
+  --validation docs/captures/val_demo.jsonl \
+  --output runs/demo/model.json
+
+# Evaluate on held-out data (accuracy, log-loss, Brier, ECE, latency + shuffled control)
+openjev eval runs/demo/model.json docs/captures/test_demo.jsonl
+
+# Score a changing menu with the checkpoint
+openjev predict runs/demo/model.json --context "refund my duplicate payment" --option "billing refund" --option "technical bug crash"
+```
+
+![Training curve from the actual demo run](docs/img/training_curve.svg)
+
+**Measured fitness (this repo, fixed v2 encoder, demo billing-vs-technical set):**
+
+| Metric | Value | Context |
+|---|---|---|
+| Train loss | 0.691 → **0.431** (30 epochs) | Real learning curve (see SVG + `docs/captures/training_result.json`) |
+| Validation top-1 | 0.45 → **1.00** | Same-distribution validation |
+| Held-out top-1 (incl. paraphrases like "null pointer exception on save") | **0.75** | Honest generalization gap — byte-level, not semantic |
+| Log-loss / Brier / ECE | 0.535 / 0.353 / 0.205 | Down from random (0.69 / 0.50) |
+| Shuffled-context control | acc **0.45**, log-loss 0.84 | Model beats control by 30 pts — signal is real, not bias |
+| Mean latency | **~0.09 ms** / row | Trivial CPU cost |
+| Unit tests / lint | **7/7 pytest passed**, `ruff` clean | `tests/` + contract + API + research |
+
+**What fixed it:** v1 used length-normalized byte histograms whose products were ~1e-3, so
+gradients at the default learning rate were microscopic and training sat at chance
+(45–50%, log-loss ≈ 0.693 = random). v2 keeps the identical architecture but L2-normalizes
+the histograms to unit norm (~12× larger interaction signal). Old v1 checkpoints should be
+retrained. The global `bias` term is kept for checkpoint compatibility (it cancels in
+softmax and is harmless).
+
+**What it is good for:** narrow lexical routing with audit trails, offline ticket triage
+prototypes, teaching option-conditioned scoring, agent tool-use where abstention matters.
+**What it is not:** a general semantic classifier, a replacement for proprietary
+Jev/GEV-Jeff weights, or anything to trust on high-stakes decisions without calibration on
+*your* data.
+
+---
+
+## 6. API, CLI, playground, and integrations
+
+- **REST**: `GET /health` → `{"status":"ok"}` · `POST /v1/evaluate` (typed request/response,
+  `X-OpenJev-Backend: mock|local` header override) · `GET /docs` (OpenAPI/Swagger).
+- **Playground**: `GET /` — pick backend, edit state/questions, set `abstain_below`/`top_k`,
+  inspect per-question distributions and the raw trace. A verbatim capture of the served
+  HTML is in [`docs/captures/playground.html`](docs/captures/playground.html).
+- **CLI**: `openjev evaluate <request.json> [--backend …]` · `openjev serve` ·
+  `openjev train …` · `openjev eval <checkpoint> <test.jsonl>` · `openjev predict …`.
+- **TypeScript**: [`openjev_ts/src/index.ts`](openjev_ts/src/index.ts) — same envelope for
+  Node/frontends.
+- **Agents**: reusable skill at [`.agents/skills/openjev`](.agents/skills/openjev/SKILL.md)
+  plus a Claude Code adapter under [`integrations/claude-code`](integrations/claude-code).
+- **Docker**: `docker build -t openjev . && docker run -p 8787:8787 openjev`.
+
+Request envelope (`api_version: "v1"`, extra fields forbidden):
+
+```json
+{
+  "state": "anything JSON-serializable",
+  "questions": {
+    "department": {"type": "choice", "instructions": "...", "criteria": {"billing": "...", "technical": "..."}},
+    "urgency": {"type": "score", "instructions": "...", "criteria": ["routine", "soon", "priority"]},
+    "refund_requested": {"type": "noul", "instructions": "The customer explicitly requests a refund."}
+  },
+  "options": {"abstain_below": 0.25, "top_k": 2, "seed": null, "trace": true}
+}
+```
+
+---
+
+## 7. Repo map
+
+```
+openjev/            core: models.py (v1 envelope) · math.py (softmax/entropy) · client.py · api.py · cli.py
+openjev/backends/   local.py · mock.py · openai_compatible.py · remote.py · base.py
+openjev/research/   model.py (OptionScorer v2) · train.py (metrics + shuffled control) · backend.py
+openjev_ts/         TypeScript SDK (same envelope)
+web/                playground (index.html · app.js · styles.css)
+examples/           support_ticket.json (the demo used above)
+tests/              contract + local backend + API + research (7 tests)
+docs/captures/      verbatim live captures: health, evaluate, openapi, playground, training data/results
+docs/img/           architecture.svg · lifecycle.svg · training_curve.svg (diagrams)
+integrations/       Claude Code adapter
+.agents/skills/     reusable agent skill
+```
+
+---
+
+## 8. Limitations (read before shipping)
+
+1. The local backend is lexical, not semantic — paraphrases outside its normalization map
+   can miss; design criteria text carefully and keep thresholds honest.
+2. The research scorer is a byte-level baseline for narrow menus, not a language model;
+   expect the 75%-style generalization shown here on near-distribution data, less
+   far afield. Calibrate (`ECE`, reliability curves) on your own labels before trusting it.
+3. Confidence = distribution concentration, never correctness. Low-confidence abstention is
+   the safety mechanism — wire `abstained` into your UX (escalate, ask, queue) rather than
+   overriding it.
+4. No proprietary weights/data/claims inside; do not present benchmark numbers from the
+   toy demo as production performance.
+
+---
+
+## 9. License
+
+MIT — built and maintained by **Alistair R ([@Alistair77](https://github.com/Alistair77))**. Research checkpoints you train are
+yours; the demo artifacts under `docs/captures/` and `runs/demo/` are regenerable via the
+commands in section 5.

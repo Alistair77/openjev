@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>OpenJev - Decision Playground</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <a class="wordmark" href="/">OpenJev</a>
+        <p>Local decision intelligence</p>
+        <a class="api-link" href="/docs">OpenAPI</a>
+      </header>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">A local, inspectable decision engine</p>
+          <h1>Make the decision visible.</h1>
+          <p class="lede">Test a narrow judgment, inspect the full distribution, and abstain when the evidence is too diffuse.</p>
+        </div>
+        <aside class="principle"><span>01</span><p>Ask one question per dimension. Combine decisions in code.</p></aside>
+      </section>
+      <section class="workspace" aria-label="OpenJev evaluator">
+        <form id="decision-form" class="editor">
+          <div class="field-head"><label for="backend">Backend</label><select id="backend" name="backend"><option value="local">Local heuristic</option><option value="mock">Deterministic mock</option></select></div>
+          <label class="field"><span>State</span><textarea id="state" name="state" rows="7">Charged twice again. I need my money back and this is the second month in a row.</textarea></label>
+          <div class="question-head"><div><span>Question set</span><strong id="question-count">3 decisions</strong></div><button id="add-question" type="button" class="text-button">Add question</button></div>
+          <div id="questions" class="questions"></div>
+          <details class="settings"><summary>Decision settings</summary><label>Abstain below <input id="threshold" type="number" min="0" max="1" step="0.05" value="0.25" /></label><label>Alternatives <input id="top-k" type="number" min="1" max="10" value="3" /></label></details>
+          <button class="evaluate" type="submit"><span>Evaluate decision set</span><kbd>⌘↵</kbd></button>
+          <p id="form-error" class="form-error" role="alert"></p>
+        </form>
+        <section class="results" aria-live="polite">
+          <div class="result-header"><div><p class="eyebrow">Result</p><h2 id="result-title">Ready for evaluation</h2></div><span id="latency" class="latency">Local backend</span></div>
+          <div id="result-empty" class="result-empty"><p>The local engine is ready. Run the sample to inspect its decision trace.</p></div>
+          <div id="answer-list" class="answer-list" hidden></div>
+          <details id="raw-response" class="raw-response" hidden><summary>Raw decision trace</summary><pre><code id="raw-json"></code></pre></details>
+        </section>
+      </section>
+      <footer><p>OpenJev is an independent open-source decision engine. Confidence describes distribution concentration, not correctness.</p></footer>
+    </main>
+    <template id="choice-template"><article class="question" data-type="choice"><div class="question-toolbar"><select class="question-type"><option value="choice">Choice</option><option value="score">Score</option><option value="noul">Noul</option></select><button class="remove-question" type="button" aria-label="Remove question">Remove</button></div><label>Question<textarea class="instructions" rows="2"></textarea></label><label class="criteria-label">Options<span class="hint">One per line: key | description</span><textarea class="criteria" rows="4"></textarea></label></article></template>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>

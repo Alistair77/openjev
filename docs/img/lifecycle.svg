@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="760" height="380" fill="#0e1116"/>
+<text x="30" y="38" fill="#f2f4f8" font-size="22" font-weight="bold">Request lifecycle</text>
+<text x="30" y="60" fill="#9aa4b2" font-size="13">One state, many named questions, honest abstention</text>
+<g font-size="13">
+<rect x="30" y="90" width="120" height="52" rx="8" fill="#16202b" stroke="#2f81f7"/><text x="45" y="112" fill="#f2f4f8">1. state</text><text x="45" y="130" fill="#9aa4b2" font-size="11">ticket text</text>
+<rect x="170" y="90" width="120" height="52" rx="8" fill="#16202b" stroke="#2f81f7"/><text x="185" y="112" fill="#f2f4f8">2. validate</text><text x="185" y="130" fill="#9aa4b2" font-size="11">Pydantic v1</text>
+<rect x="310" y="90" width="120" height="52" rx="8" fill="#16202b" stroke="#2f81f7"/><text x="325" y="112" fill="#f2f4f8">3. backend</text><text x="325" y="130" fill="#9aa4b2" font-size="11">local/research</text>
+<rect x="450" y="90" width="120" height="52" rx="8" fill="#16202b" stroke="#2f81f7"/><text x="465" y="112" fill="#f2f4f8">4. distribute</text><text x="465" y="130" fill="#9aa4b2" font-size="11">softmax probs</text>
+<rect x="590" y="90" width="140" height="52" rx="8" fill="#12241a" stroke="#3fb950"/><text x="605" y="112" fill="#f2f4f8">5. conf + trace</text><text x="605" y="130" fill="#9aa4b2" font-size="11">abstain?</text>
+</g>
+<g stroke="#2f81f7" stroke-width="2">
+<line x1="150" y1="116" x2="170" y2="116"/><line x1="290" y1="116" x2="310" y2="116"/><line x1="430" y1="116" x2="450" y2="116"/><line x1="570" y1="116" x2="590" y2="116"/>
+</g>
+<rect x="30" y="175" width="700" height="150" rx="10" fill="#1a1503" stroke="#d29922"/>
+<text x="46" y="202" fill="#e3b341" font-size="12" font-weight="bold">ABSTENTION RULE (THE HONEST PART)</text>
+<text x="46" y="228" fill="#f2f4f8" font-size="14">confidence = 1 - normalized entropy of the distribution</text>
+<text x="46" y="252" fill="#f2f4f8" font-size="14">if confidence &lt; abstain_below -&gt; abstained = true + reason, no forced answer</text>
+<text x="46" y="276" fill="#9aa4b2" font-size="13">Real capture: urgency 0.477 / 0.046 / 0.477, conf 0.228 &lt; 0.25 -&gt; abstained, margin 0.0</text>
+<text x="46" y="300" fill="#9aa4b2" font-size="13">Confidence = concentration of the distribution, never proof of correctness.</text>
+</svg>

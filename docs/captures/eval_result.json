@@ -1,0 +1,30 @@
+{
+  "metrics": {
+    "top1_accuracy": 0.75,
+    "top3_accuracy": 1.0,
+    "log_loss": 0.5351965020733672,
+    "brier_score": 0.3528289821564436,
+    "expected_calibration_error": 0.2050298765687874,
+    "mean_latency_ms": 0.09003645000120741
+  },
+  "shuffled_context_control": {
+    "top1_accuracy": 0.45,
+    "top3_accuracy": 1.0,
+    "log_loss": 0.8379119997361466,
+    "brier_score": 0.6309174365973138,
+    "expected_calibration_error": 0.2378502900874081,
+    "mean_latency_ms": 0.10485417496965965
+  },
+  "checkpoint_metadata": {
+    "architecture": "option-conditioned byte interaction v2 (l2-normalized)",
+    "encoder": "byte-l2",
+    "feature_size": 256,
+    "training_file": "train_demo.jsonl",
+    "license": "MIT",
+    "training": {
+      "epochs": 30,
+      "learning_rate": 1.0,
+      "seed": 7
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "state": "Charged twice again. I need my money back and this is the second month in a row.",
+  "questions": {
+    "department": {
+      "type": "choice",
+      "instructions": "Which team should handle this ticket?",
+      "criteria": {
+        "billing": "Charges, invoices, payment problems, duplicate charges, or refunds.",
+        "technical": "Bugs, crashes, errors, or product failures.",
+        "other": "A request that fits neither billing nor technical."
+      }
+    },
+    "urgency": {
+      "type": "score",
+      "instructions": "How urgent is this support request?",
+      "criteria": [
+        "Routine request with no immediate impact.",
+        "A problem that should be addressed soon.",
+        "A repeated or high-impact problem requiring priority attention."
+      ]
+    },
+    "refund_requested": {
+      "type": "noul",
+      "instructions": "The customer explicitly requests a refund."
+    }
+  },
+  "options": { "abstain_below": 0.25, "top_k": 2 }
+}
