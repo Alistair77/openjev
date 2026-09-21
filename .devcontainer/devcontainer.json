@@ -1,0 +1,13 @@
+{
+  "name": "OpenJev",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "forwardPorts": [8787],
+  "portsAttributes": {
+    "8787": {
+      "label": "OpenJev playground",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "pip install -e '.[dev,research]'",
+  "postStartCommand": "nohup python -m uvicorn openjev.api:app --host 0.0.0.0 --port 8787 > /tmp/openjev.log 2>&1 & sleep 3 && curl -s http://127.0.0.1:8787/health"
+}
