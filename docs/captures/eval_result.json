@@ -2,18 +2,118 @@
   "metrics": {
     "top1_accuracy": 0.75,
     "top3_accuracy": 1.0,
-    "log_loss": 0.5351965020733672,
-    "brier_score": 0.3528289821564436,
-    "expected_calibration_error": 0.2050298765687874,
-    "mean_latency_ms": 0.09003645000120741
+    "log_loss": 0.5150250635024614,
+    "brier_score": 0.3508640346755227,
+    "expected_calibration_error": 0.19092134484665257,
+    "mean_latency_ms": 0.09522292493784335,
+    "selective": [
+      {
+        "coverage": 1.0,
+        "kept": 40,
+        "accuracy": 0.75,
+        "threshold": 0.7470970393307798
+      },
+      {
+        "coverage": 0.9,
+        "kept": 36,
+        "accuracy": 0.7222222222222222,
+        "threshold": 0.7470970393307798
+      },
+      {
+        "coverage": 0.8,
+        "kept": 32,
+        "accuracy": 0.6875,
+        "threshold": 0.7470970393307798
+      },
+      {
+        "coverage": 0.7,
+        "kept": 28,
+        "accuracy": 0.7142857142857143,
+        "threshold": 0.7806742623135593
+      },
+      {
+        "coverage": 0.6,
+        "kept": 24,
+        "accuracy": 0.8333333333333334,
+        "threshold": 0.7806742623135593
+      },
+      {
+        "coverage": 0.5,
+        "kept": 20,
+        "accuracy": 1.0,
+        "threshold": 0.8664203499758774
+      },
+      {
+        "coverage": 0.4,
+        "kept": 16,
+        "accuracy": 1.0,
+        "threshold": 0.8664203499758774
+      },
+      {
+        "coverage": 0.3,
+        "kept": 12,
+        "accuracy": 1.0,
+        "threshold": 0.8664203499758774
+      }
+    ]
   },
   "shuffled_context_control": {
     "top1_accuracy": 0.45,
     "top3_accuracy": 1.0,
-    "log_loss": 0.8379119997361466,
-    "brier_score": 0.6309174365973138,
-    "expected_calibration_error": 0.2378502900874081,
-    "mean_latency_ms": 0.10485417496965965
+    "log_loss": 1.12045605882802,
+    "brier_score": 0.8042261075355988,
+    "expected_calibration_error": 0.37296430597551694,
+    "mean_latency_ms": 0.09119687501879525,
+    "selective": [
+      {
+        "coverage": 1.0,
+        "kept": 40,
+        "accuracy": 0.45,
+        "threshold": 0.7470970393307798
+      },
+      {
+        "coverage": 0.9,
+        "kept": 36,
+        "accuracy": 0.4444444444444444,
+        "threshold": 0.7470970393307798
+      },
+      {
+        "coverage": 0.8,
+        "kept": 32,
+        "accuracy": 0.4375,
+        "threshold": 0.7470970393307798
+      },
+      {
+        "coverage": 0.7,
+        "kept": 28,
+        "accuracy": 0.39285714285714285,
+        "threshold": 0.7806742623135593
+      },
+      {
+        "coverage": 0.6,
+        "kept": 24,
+        "accuracy": 0.3333333333333333,
+        "threshold": 0.7806742623135593
+      },
+      {
+        "coverage": 0.5,
+        "kept": 20,
+        "accuracy": 0.35,
+        "threshold": 0.8664203499758774
+      },
+      {
+        "coverage": 0.4,
+        "kept": 16,
+        "accuracy": 0.375,
+        "threshold": 0.8664203499758774
+      },
+      {
+        "coverage": 0.3,
+        "kept": 12,
+        "accuracy": 0.3333333333333333,
+        "threshold": 0.8664203499758774
+      }
+    ]
   },
   "checkpoint_metadata": {
     "architecture": "option-conditioned byte interaction v2 (l2-normalized)",
@@ -25,6 +125,13 @@
       "epochs": 30,
       "learning_rate": 1.0,
       "seed": 7
+    },
+    "calibration": {
+      "method": "temperature scaling on validation logits",
+      "temperature": 0.5000000000000004,
+      "validation_nll_before": 0.4300939239690799,
+      "validation_nll_after": 0.27243907536384665,
+      "credit": "practice adapted from Heman10x-NGU/openJev-verdict-2.0 (Apache-2.0)"
     }
   }
 }

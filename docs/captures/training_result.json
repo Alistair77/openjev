@@ -10,7 +10,57 @@
         "log_loss": 0.6805550856167061,
         "brier_score": 0.48742593084824914,
         "expected_calibration_error": 0.06314689586791117,
-        "mean_latency_ms": 0.10186039999098284
+        "mean_latency_ms": 0.09198124989779899,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.45,
+            "threshold": 0.5008612875625239
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.5,
+            "threshold": 0.5008612875625239
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 0.5625,
+            "threshold": 0.5045393730438739
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 0.6428571428571429,
+            "threshold": 0.5045393730438739
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 0.6666666666666666,
+            "threshold": 0.5103874392602278
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 0.6,
+            "threshold": 0.5112496018351479
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 0.75,
+            "threshold": 0.5112496018351479
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5217778449228353
+          }
+        ]
       }
     },
     {
@@ -22,7 +72,57 @@
         "log_loss": 0.6689913403616,
         "brier_score": 0.4759629330630828,
         "expected_calibration_error": 0.07429497975486704,
-        "mean_latency_ms": 0.08996044998639263
+        "mean_latency_ms": 0.09076664991880534,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.45,
+            "threshold": 0.5006776962947573
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.5,
+            "threshold": 0.5006776962947573
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 0.5625,
+            "threshold": 0.5069951362051759
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 0.6428571428571429,
+            "threshold": 0.5069951362051759
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 0.6666666666666666,
+            "threshold": 0.5194442942643808
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 0.6,
+            "threshold": 0.5206471956218495
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 0.75,
+            "threshold": 0.5206471956218495
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5412856595345633
+          }
+        ]
       }
     },
     {
@@ -34,7 +134,57 @@
         "log_loss": 0.6588358113290623,
         "brier_score": 0.46605578617765087,
         "expected_calibration_error": 0.08612624436418098,
-        "mean_latency_ms": 0.0983958500000881
+        "mean_latency_ms": 0.09102914991672151,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.45,
+            "threshold": 0.5010514472711963
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.5,
+            "threshold": 0.5010514472711963
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 0.5625,
+            "threshold": 0.5110805810420316
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 0.6428571428571429,
+            "threshold": 0.5110805810420316
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 0.6666666666666666,
+            "threshold": 0.5292543903806117
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 0.6,
+            "threshold": 0.5304598671314319
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 0.75,
+            "threshold": 0.5304598671314319
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5613941524599827
+          }
+        ]
       }
     },
     {
@@ -46,7 +196,57 @@
         "log_loss": 0.6457486189024368,
         "brier_score": 0.45307743808117606,
         "expected_calibration_error": 0.26393158140754797,
-        "mean_latency_ms": 0.0923333500395529
+        "mean_latency_ms": 0.09313954997196561,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.5020174044754656
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.7777777777777778,
+            "threshold": 0.5020174044754656
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 0.75,
+            "threshold": 0.5088218782203763
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 0.7142857142857143,
+            "threshold": 0.5088218782203763
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 0.75,
+            "threshold": 0.5253485939685208
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 0.9,
+            "threshold": 0.5253485939685208
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5282747138049828
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5635758486226934
+          }
+        ]
       }
     },
     {
@@ -58,7 +258,57 @@
         "log_loss": 0.6316930942894959,
         "brier_score": 0.4390066270858705,
         "expected_calibration_error": 0.2618912472317865,
-        "mean_latency_ms": 0.0926499998968211
+        "mean_latency_ms": 0.09009999994304962,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.5130907688399166
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.8888888888888888,
+            "threshold": 0.5130907688399166
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.522209256199417
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.522209256199417
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5230270539106033
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5230270539106033
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.523544533277352
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5573613371832055
+          }
+        ]
       }
     },
     {
@@ -70,7 +320,57 @@
         "log_loss": 0.6206283973798298,
         "brier_score": 0.4281671963153542,
         "expected_calibration_error": 0.2558854304167908,
-        "mean_latency_ms": 0.09641044998716097
+        "mean_latency_ms": 0.0912041501578642,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.5126125539908204
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.8888888888888888,
+            "threshold": 0.5126125539908204
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5250752054326786
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5250752054326786
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5295955354609778
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5297387192432669
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5297387192432669
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.565133210889897
+          }
+        ]
       }
     },
     {
@@ -82,7 +382,57 @@
         "log_loss": 0.6103701404710965,
         "brier_score": 0.4182255366856064,
         "expected_calibration_error": 0.24949524403046283,
-        "mean_latency_ms": 0.09049790005519753
+        "mean_latency_ms": 0.08972915002232185,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.5137375758123809
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.8888888888888888,
+            "threshold": 0.5137375758123809
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5292141736755176
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5292141736755176
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5342385224501076
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5342385224501076
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5344104700386145
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5748164073141804
+          }
+        ]
       }
     },
     {
@@ -94,7 +444,57 @@
         "log_loss": 0.6000804298040638,
         "brier_score": 0.40823302114367,
         "expected_calibration_error": 0.24423076604524221,
-        "mean_latency_ms": 0.09406455010321224
+        "mean_latency_ms": 0.0909437500013155,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.5122423732444024
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.8888888888888888,
+            "threshold": 0.5122423732444024
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5317313262667775
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5317313262667775
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5408405554648047
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5410224796436826
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5410224796436826
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5816837936137681
+          }
+        ]
       }
     },
     {
@@ -106,7 +506,57 @@
         "log_loss": 0.5909816881138391,
         "brier_score": 0.3995963996476354,
         "expected_calibration_error": 0.23794679430063292,
-        "mean_latency_ms": 0.09035625007527415
+        "mean_latency_ms": 0.09160414992948063,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.5141767888998504
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.8888888888888888,
+            "threshold": 0.5141767888998504
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.53692497228305
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.53692497228305
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5435726780995151
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5435726780995151
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5445236929846942
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5923665026772175
+          }
+        ]
       }
     },
     {
@@ -118,7 +568,57 @@
         "log_loss": 0.5793328832522116,
         "brier_score": 0.3880352790397237,
         "expected_calibration_error": 0.23586304720063844,
-        "mean_latency_ms": 0.08992295006464701
+        "mean_latency_ms": 0.09529999988444615,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.503947416056926
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.8888888888888888,
+            "threshold": 0.503947416056926
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5333473540152721
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5333473540152721
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.556627315435516
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.559767172018753
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.559767172018753
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5887852310705387
+          }
+        ]
       }
     },
     {
@@ -130,7 +630,57 @@
         "log_loss": 0.5705473159253728,
         "brier_score": 0.379732041592855,
         "expected_calibration_error": 0.23029687080366176,
-        "mean_latency_ms": 0.09068959989235736
+        "mean_latency_ms": 0.09001250000437722,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 0.8,
+            "threshold": 0.5045503205250376
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 0.8888888888888888,
+            "threshold": 0.5045503205250376
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5377639594171615
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5377639594171615
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5609129667213996
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5632952115957938
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5632952115957938
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5978346875515739
+          }
+        ]
       }
     },
     {
@@ -142,7 +692,57 @@
         "log_loss": 0.5592097333880209,
         "brier_score": 0.3684572818436137,
         "expected_calibration_error": 0.4260450947284178,
-        "mean_latency_ms": 0.0895291499546147
+        "mean_latency_ms": 0.09034579998115078,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5081786167723368
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5081786167723368
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5326862162016491
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5326862162016491
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5742010739457126
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5814989174721458
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5814989174721458
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.5914171133277704
+          }
+        ]
       }
     },
     {
@@ -154,7 +754,57 @@
         "log_loss": 0.5521080647056498,
         "brier_score": 0.3620761173969891,
         "expected_calibration_error": 0.42133351828365206,
-        "mean_latency_ms": 0.09352295001008315
+        "mean_latency_ms": 0.09064169989869697,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5022778744997399
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5022778744997399
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5411023030132722
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5411023030132722
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5745860906235315
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5783704739309437
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5783704739309437
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6065639299616662
+          }
+        ]
       }
     },
     {
@@ -166,7 +816,57 @@
         "log_loss": 0.5424204394458515,
         "brier_score": 0.3526671114544976,
         "expected_calibration_error": 0.41582559635144173,
-        "mean_latency_ms": 0.08817500001896406
+        "mean_latency_ms": 0.09018750006362097,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5097561262627679
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5097561262627679
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5399798280745101
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5399798280745101
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5838739927294984
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5900631966319417
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5900631966319417
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6062610483427826
+          }
+        ]
       }
     },
     {
@@ -178,7 +878,57 @@
         "log_loss": 0.5343863183461206,
         "brier_score": 0.3451652851111674,
         "expected_calibration_error": 0.41089499064440305,
-        "mean_latency_ms": 0.09290835005231202
+        "mean_latency_ms": 0.09013335002237,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5110119033375792
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5110119033375792
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5434748868209441
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5434748868209441
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.5887510516094802
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.5944383534739112
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.5944383534739112
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6131129988152919
+          }
+        ]
       }
     },
     {
@@ -190,7 +940,57 @@
         "log_loss": 0.5241527193331562,
         "brier_score": 0.33507049739840067,
         "expected_calibration_error": 0.4051962073088579,
-        "mean_latency_ms": 0.090179149992764
+        "mean_latency_ms": 0.09130625003308523,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5243874473538966
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5243874473538966
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5381858344301192
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5381858344301192
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6017121067976032
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6059179558930586
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6059179558930586
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6121748381942259
+          }
+        ]
       }
     },
     {
@@ -202,7 +1002,57 @@
         "log_loss": 0.5160551541174514,
         "brier_score": 0.3274521423900293,
         "expected_calibration_error": 0.4002773502678787,
-        "mean_latency_ms": 0.08976250010164222
+        "mean_latency_ms": 0.09776040005817777,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.528392875384309
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.528392875384309
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5398142399647161
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5398142399647161
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6081511729271392
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6096125428688707
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6096125428688707
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6189836779933511
+          }
+        ]
       }
     },
     {
@@ -214,7 +1064,57 @@
         "log_loss": 0.5095107853994328,
         "brier_score": 0.32162077847244236,
         "expected_calibration_error": 0.3959938677908044,
-        "mean_latency_ms": 0.09070835003512911
+        "mean_latency_ms": 0.090335399909236,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.525525626761093
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.525525626761093
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5466146793889668
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5466146793889668
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6098572266032378
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6176533882415054
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6176533882415054
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6212628292372989
+          }
+        ]
       }
     },
     {
@@ -226,7 +1126,57 @@
         "log_loss": 0.5015273534008301,
         "brier_score": 0.31408900765144016,
         "expected_calibration_error": 0.39117144603672793,
-        "mean_latency_ms": 0.09016670010169037
+        "mean_latency_ms": 0.09119999995164108,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5312543276676849
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5312543276676849
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5471501735095956
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5471501735095956
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6171494792673998
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6229373165071113
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6229373165071113
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6259097326467428
+          }
+        ]
       }
     },
     {
@@ -238,7 +1188,57 @@
         "log_loss": 0.4947298600186837,
         "brier_score": 0.3079259605007515,
         "expected_calibration_error": 0.3868386374211136,
-        "mean_latency_ms": 0.09023749989864882
+        "mean_latency_ms": 0.09472080000705319,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.53207318226832
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.53207318226832
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5514076669025328
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5514076669025328
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6209257597363499
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6284500594236327
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6284500594236327
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6301834543126753
+          }
+        ]
       }
     },
     {
@@ -250,7 +1250,57 @@
         "log_loss": 0.4883729236263047,
         "brier_score": 0.30225978195829445,
         "expected_calibration_error": 0.3827089000339836,
-        "mean_latency_ms": 0.08946875004767207
+        "mean_latency_ms": 0.0962395999522414,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5319681878383044
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5319681878383044
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5564749519986395
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5564749519986395
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6238809563224718
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6296921856166479
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6296921856166479
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6383890785108424
+          }
+        ]
       }
     },
     {
@@ -262,7 +1312,57 @@
         "log_loss": 0.48004860090929646,
         "brier_score": 0.2942605521668771,
         "expected_calibration_error": 0.37779112979280105,
-        "mean_latency_ms": 0.09146454995061504
+        "mean_latency_ms": 0.09008544984681066,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5423871426436949
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5423871426436949
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5538244194153935
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5538244194153935
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6337412235720872
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6346696127658683
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6346696127658683
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6423769120957774
+          }
+        ]
       }
     },
     {
@@ -274,7 +1374,57 @@
         "log_loss": 0.47151784068635144,
         "brier_score": 0.286022319700643,
         "expected_calibration_error": 0.3727333892816068,
-        "mean_latency_ms": 0.09423749997949926
+        "mean_latency_ms": 0.09065835001820233,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5481336395932653
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5481336395932653
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5571023637376665
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5571023637376665
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.626004867601522
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6462251538856989
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6462251538856989
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6590899613244925
+          }
+        ]
       }
     },
     {
@@ -286,7 +1436,57 @@
         "log_loss": 0.4649905301760063,
         "brier_score": 0.28010425852112003,
         "expected_calibration_error": 0.3685649833656396,
-        "mean_latency_ms": 0.0996750000922475
+        "mean_latency_ms": 0.09537500009173527,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5508317744012002
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5508317744012002
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5602077333533009
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5602077333533009
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6304858984399544
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6510470258423897
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6510470258423897
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6633614720503515
+          }
+        ]
       }
     },
     {
@@ -298,7 +1498,57 @@
         "log_loss": 0.4589670829479222,
         "brier_score": 0.27473352667587403,
         "expected_calibration_error": 0.3646586061653067,
-        "mean_latency_ms": 0.0967125000897795
+        "mean_latency_ms": 0.09695624994492391,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5552834264951281
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5552834264951281
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5611982552431476
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5611982552431476
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6373725040392035
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6542323633271864
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6542323633271864
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6651284597804731
+          }
+        ]
       }
     },
     {
@@ -310,7 +1560,57 @@
         "log_loss": 0.45230686453059993,
         "brier_score": 0.26863913878048845,
         "expected_calibration_error": 0.36043404075473207,
-        "mean_latency_ms": 0.09664584995334735
+        "mean_latency_ms": 0.09072709999600193,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5556978859782404
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5556978859782404
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5674658838451515
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5674658838451515
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6381047932031811
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6608397740592175
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6608397740592175
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6725321584698406
+          }
+        ]
       }
     },
     {
@@ -322,7 +1622,57 @@
         "log_loss": 0.44722568962893083,
         "brier_score": 0.2643282996530144,
         "expected_calibration_error": 0.35699317731537605,
-        "mean_latency_ms": 0.09208544997818535
+        "mean_latency_ms": 0.09049580003193114,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5631961556458648
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5631961556458648
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5642231830798274
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5642231830798274
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6495374684330972
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.661103682381475
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.661103682381475
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6698278443278066
+          }
+        ]
       }
     },
     {
@@ -334,7 +1684,57 @@
         "log_loss": 0.4408038100452454,
         "brier_score": 0.25847646520379086,
         "expected_calibration_error": 0.35290065650952285,
-        "mean_latency_ms": 0.145814600000449
+        "mean_latency_ms": 0.09016874992084922,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.563603729402657
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.563603729402657
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5705801768080903
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5705801768080903
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6500592470110228
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6674940740322836
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6674940740322836
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6770941967638311
+          }
+        ]
       }
     },
     {
@@ -346,7 +1746,57 @@
         "log_loss": 0.4355532914799382,
         "brier_score": 0.25393970446069475,
         "expected_calibration_error": 0.3493966065781277,
-        "mean_latency_ms": 0.09099790004256647
+        "mean_latency_ms": 0.09115624998230487,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.568763733808537
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.568763733808537
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5705851282462175
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5705851282462175
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6577156649283121
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6697564914858176
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6697564914858176
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6774333217682168
+          }
+        ]
       }
     },
     {
@@ -358,16 +1808,116 @@
         "log_loss": 0.4300939239690799,
         "brier_score": 0.24915910422622173,
         "expected_calibration_error": 0.34579095481959343,
-        "mean_latency_ms": 0.0926729499042267
+        "mean_latency_ms": 0.09086664995265892,
+        "selective": [
+          {
+            "coverage": 1.0,
+            "kept": 20,
+            "accuracy": 1.0,
+            "threshold": 0.5723359722499983
+          },
+          {
+            "coverage": 0.9,
+            "kept": 18,
+            "accuracy": 1.0,
+            "threshold": 0.5723359722499983
+          },
+          {
+            "coverage": 0.8,
+            "kept": 16,
+            "accuracy": 1.0,
+            "threshold": 0.5727122228687107
+          },
+          {
+            "coverage": 0.7,
+            "kept": 14,
+            "accuracy": 1.0,
+            "threshold": 0.5727122228687107
+          },
+          {
+            "coverage": 0.6,
+            "kept": 12,
+            "accuracy": 1.0,
+            "threshold": 0.6628457095450391
+          },
+          {
+            "coverage": 0.5,
+            "kept": 10,
+            "accuracy": 1.0,
+            "threshold": 0.6732664985242669
+          },
+          {
+            "coverage": 0.4,
+            "kept": 8,
+            "accuracy": 1.0,
+            "threshold": 0.6732664985242669
+          },
+          {
+            "coverage": 0.3,
+            "kept": 6,
+            "accuracy": 1.0,
+            "threshold": 0.6799854723830208
+          }
+        ]
       }
     }
   ],
   "shuffled_context_control": {
     "top1_accuracy": 0.3,
     "top3_accuracy": 1.0,
-    "log_loss": 0.8891429499437852,
-    "brier_score": 0.6776581602259253,
-    "expected_calibration_error": 0.3542090451804065,
-    "mean_latency_ms": 0.08814165012154263
+    "log_loss": 1.1905371273132566,
+    "brier_score": 0.8627197672307265,
+    "expected_calibration_error": 0.46831312548935167,
+    "mean_latency_ms": 0.09082084998226492,
+    "selective": [
+      {
+        "coverage": 1.0,
+        "kept": 20,
+        "accuracy": 0.3,
+        "threshold": 0.6417060410949016
+      },
+      {
+        "coverage": 0.9,
+        "kept": 18,
+        "accuracy": 0.2777777777777778,
+        "threshold": 0.6417060410949016
+      },
+      {
+        "coverage": 0.8,
+        "kept": 16,
+        "accuracy": 0.3125,
+        "threshold": 0.6424126643433479
+      },
+      {
+        "coverage": 0.7,
+        "kept": 14,
+        "accuracy": 0.35714285714285715,
+        "threshold": 0.6424126643433479
+      },
+      {
+        "coverage": 0.6,
+        "kept": 12,
+        "accuracy": 0.3333333333333333,
+        "threshold": 0.7944569295913002
+      },
+      {
+        "coverage": 0.5,
+        "kept": 10,
+        "accuracy": 0.4,
+        "threshold": 0.8093809492388009
+      },
+      {
+        "coverage": 0.4,
+        "kept": 8,
+        "accuracy": 0.375,
+        "threshold": 0.8093809492388009
+      },
+      {
+        "coverage": 0.3,
+        "kept": 6,
+        "accuracy": 0.3333333333333333,
+        "threshold": 0.8186770636928069
+      }
+    ]
   }
 }

@@ -6,6 +6,7 @@ import random
 import time
 from pathlib import Path
 
+from openjev.research.calibrate import fit_temperature, mean_nll
 from openjev.research.model import OptionScorer
 
 
@@ -17,6 +18,34 @@ def records(path: Path) -> list[dict]:
         if len(row["options"]) < 2 or not 0 <= row.get("label", -1) < len(row["options"]):
             raise ValueError("every row must contain a valid zero-based label and at least two options")
     return rows
+
+
+def selective_curve(model: OptionScorer, rows: list[dict]) -> list[dict]:
+    """Accuracy-vs-coverage curve: sort by confidence, keep the top fraction.
+
+    Adapted practice from openJev-verdict-2.0's selective-classification reports:
+    shows what accuracy you buy by abstaining on the least confident rows.
+    """
+    scored = []
+    for row in rows:
+        probabilities = model.predict(row["context"], row["options"])
+        values = list(probabilities.values())
+        ordered = sorted(range(len(values)), key=lambda index: values[index], reverse=True)
+        scored.append((values[ordered[0]], ordered[0] == row["label"]))
+    scored.sort(key=lambda item: item[0], reverse=True)
+    curve = []
+    for coverage in (1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3):
+        count = max(1, int(len(scored) * coverage))
+        kept = scored[:count]
+        curve.append(
+            {
+                "coverage": coverage,
+                "kept": count,
+                "accuracy": sum(hit for _, hit in kept) / count,
+                "threshold": kept[-1][0],
+            }
+        )
+    return curve
 
 
 def metrics(model: OptionScorer, rows: list[dict]) -> dict[str, float]:
@@ -40,7 +69,7 @@ def metrics(model: OptionScorer, rows: list[dict]) -> dict[str, float]:
             avg_confidence = sum(item[0] for item in bucket) / len(bucket)
             avg_accuracy = sum(item[1] for item in bucket) / len(bucket)
             ece += len(bucket) / len(rows) * abs(avg_confidence - avg_accuracy)
-    return {"top1_accuracy": correct / len(rows), "top3_accuracy": top3 / len(rows), "log_loss": log_loss / len(rows), "brier_score": brier / len(rows), "expected_calibration_error": ece, "mean_latency_ms": ((time.perf_counter() - started) * 1000) / len(rows)}
+    return {"top1_accuracy": correct / len(rows), "top3_accuracy": top3 / len(rows), "log_loss": log_loss / len(rows), "brier_score": brier / len(rows), "expected_calibration_error": ece, "mean_latency_ms": ((time.perf_counter() - started) * 1000) / len(rows), "selective": selective_curve(model, rows)}
 
 
 def shuffled_context_control(model: OptionScorer, rows: list[dict]) -> dict[str, float]:
@@ -63,6 +92,18 @@ def train_model(train_file: Path, validation_file: Path, output: Path, *, epochs
         loss = sum(model.update(row["context"], row["options"], row["label"], learning_rate) for row in train_rows) / len(train_rows)
         history.append({"epoch": epoch + 1, "loss": loss, "validation": metrics(model, validation_rows)})
     model.metadata["training"] = {"epochs": epochs, "learning_rate": learning_rate, "seed": 7}
+    validation_logits = [model.logits(row["context"], row["options"]) for row in validation_rows]
+    validation_labels = [row["label"] for row in validation_rows]
+    nll_before = mean_nll(validation_logits, validation_labels, 1.0)
+    temperature = fit_temperature(validation_logits, validation_labels)
+    model.temperature = temperature
+    model.metadata["calibration"] = {
+        "method": "temperature scaling on validation logits",
+        "temperature": temperature,
+        "validation_nll_before": nll_before,
+        "validation_nll_after": mean_nll(validation_logits, validation_labels, temperature),
+        "credit": "practice adapted from Heman10x-NGU/openJev-verdict-2.0 (Apache-2.0)",
+    }
     model.save(output)
     return {"checkpoint": str(output), "history": history, "shuffled_context_control": shuffled_context_control(model, validation_rows)}
 

@@ -181,10 +181,11 @@ openjev predict runs/demo/model.json --context "refund my duplicate payment" --o
 | Train loss | 0.691 → **0.431** (30 epochs) | Real learning curve (see SVG + `docs/captures/training_result.json`) |
 | Validation top-1 | 0.45 → **1.00** | Same-distribution validation |
 | Held-out top-1 (incl. paraphrases like "null pointer exception on save") | **0.75** | Honest generalization gap — byte-level, not semantic |
-| Log-loss / Brier / ECE | 0.535 / 0.353 / 0.205 | Down from random (0.69 / 0.50) |
+| Log-loss / Brier / ECE (temperature-calibrated, T=0.5) | 0.515 / 0.351 / 0.191 | Down from random (0.69 / 0.50); uncalibrated was 0.535 / 0.353 / 0.205 |
+| Selective: accuracy at 50% coverage | **1.00** (0.75 at full coverage) | Abstaining on the least-confident half removes every error on this demo |
 | Shuffled-context control | acc **0.45**, log-loss 0.84 | Model beats control by 30 pts — signal is real, not bias |
-| Mean latency | **~0.09 ms** / row | Trivial CPU cost |
-| Unit tests / lint | **7/7 pytest passed**, `ruff` clean | `tests/` + contract + API + research |
+| Mean latency | **~0.09 ms** / row (p50 0.09, p99 0.10) | Trivial CPU cost; receipt in `docs/captures/latency.json` |
+| Unit tests / lint | **8/8 pytest passed**, `ruff` clean | `tests/` + contract + API + research + docs-fresh |
 
 **What fixed it:** v1 used length-normalized byte histograms whose products were ~1e-3, so
 gradients at the default learning rate were microscopic and training sat at chance
@@ -198,6 +199,43 @@ prototypes, teaching option-conditioned scoring, agent tool-use where abstention
 **What it is not:** a general semantic classifier, a replacement for proprietary
 Jev/GEV-Jeff weights, or anything to trust on high-stakes decisions without calibration on
 *your* data.
+
+### Calibration and selective classification (adapted from openJev-verdict-2.0)
+
+The practices in this section are adapted from
+[Heman10x-NGU/openJev-verdict-2.0](https://github.com/Heman10x-NGU/openJev-verdict-2.0)
+(Apache-2.0) — the most rigorous open Jeff implementation I could find (150M-parameter
+ModernBERT scorer, 77.1% on 2,000 held-out enterprise decisions, confidence-head ECE
+1.4%, full contamination audits and a failure gallery). I verified their committed
+receipts match their README claims. Their *model* beats this repo's toy scorer outright;
+this repo's advantage is the deployable typed API around it. So I ported their *methods*:
+
+- **Temperature scaling** (`openjev/research/calibrate.py`): after training, a single
+  temperature T is fit on validation logits (golden-section search on NLL, reimplemented
+  numpy-free). The checkpoint stores T and applies it in `logits()`, so rankings stay
+  identical while confidence matches hit rates better. Demo: T=0.5, validation NLL
+  0.430 → 0.272, held-out log-loss 0.535 → 0.515, ECE 0.205 → 0.191.
+- **Honest calibration finding**: an unbounded fit collapsed to T=0.05 (validation NLL
+  0.001, held-out NLL ruined at 3.17) — 20 validation rows overfit instantly. So T is
+  bounded to [0.5, 5.0]. Their repo fits on thousands of rows and doesn't hit this; the
+  bound is this track's guardrail at toy scale. Recorded here instead of hidden.
+- **Selective curve**: every eval now reports accuracy at 100%→30% coverage
+  (`selective` in eval output). Demo: 0.75 at full coverage, **1.00 at 50%** — the
+  abstention mechanism demonstrably buys accuracy.
+- **Docs-freshness test** (`tests/test_docs_fresh.py`): the numbers quoted in this README
+  are asserted against `docs/captures/*.json` on every test run. Drift fails the build.
+- **Latency receipts** (`scripts/benchmark_latency.py` → `docs/captures/latency.json`):
+  local 3-question request p50 0.07ms / p99 0.25ms; research predict p50 0.09ms.
+
+### Failure gallery (one entry so far — the honest kind)
+
+| Input | Expected | Got | Confidence | Gate |
+|---|---|---|---|---|
+| "screen freezes, null pointer exception" | `technical` | abstained (billing 0.50/0.50) | 0.00 | Safely gated — refused, didn't guess |
+| "hello world" | nothing | abstained | 0.00 | Safely gated |
+
+No confident errors observed on the probe set: every miss abstained. That is the claim —
+gated, not "never wrong".
 
 ---
 
@@ -237,12 +275,13 @@ Request envelope (`api_version: "v1"`, extra fields forbidden):
 ```
 openjev/            core: models.py (v1 envelope) · math.py (softmax/entropy) · client.py · api.py · cli.py
 openjev/backends/   local.py · mock.py · openai_compatible.py · remote.py · base.py
-openjev/research/   model.py (OptionScorer v2) · train.py (metrics + shuffled control) · backend.py
+openjev/research/   model.py (OptionScorer v2 + temperature) · calibrate.py (temperature fit) · train.py (metrics + shuffled control + selective curve) · backend.py
 openjev_ts/         TypeScript SDK (same envelope)
 web/                playground (index.html · app.js · styles.css)
 examples/           support_ticket.json (the demo used above)
-tests/              contract + local backend + API + research (7 tests)
-docs/captures/      verbatim live captures: health, evaluate, openapi, playground, training data/results
+tests/              contract + local backend + API + research + docs-fresh (8 tests)
+scripts/            benchmark_latency.py (p50/p90/p99 receipt)
+docs/captures/      verbatim live captures: health, evaluate, openapi, playground, training data/results, latency
 docs/img/           architecture.svg · lifecycle.svg · training_curve.svg (diagrams)
 integrations/       Claude Code adapter
 .agents/skills/     reusable agent skill

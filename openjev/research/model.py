@@ -41,6 +41,9 @@ class OptionScorer:
     feature_size: int = 256
     weights: list[float] = field(default_factory=lambda: [0.0] * 256)
     bias: float = 0.0
+    # Post-hoc temperature from calibrate.fit_temperature (1.0 = uncalibrated).
+    # Has a default so v1/v2 checkpoints without this key still load.
+    temperature: float = 1.0
     metadata: dict[str, object] = field(default_factory=lambda: {"architecture": ARCHITECTURE, "encoder": "byte-l2", "feature_size": 256, "license": "MIT"})
 
     def logits(self, context: str, options: list[str]) -> list[float]:
@@ -49,7 +52,7 @@ class OptionScorer:
         for option in options:
             option_features = features(option, self.feature_size)
             interaction = sum(weight * left * right for weight, left, right in zip(self.weights, context_features, option_features))
-            result.append(self.bias + interaction)
+            result.append((self.bias + interaction) / self.temperature)
         return result
 
     def predict(self, context: str, options: list[str]) -> dict[str, float]:
