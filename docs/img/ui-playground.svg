@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1020" viewBox="0 0 760 1020" font-family="ui-sans-serif, system-ui, Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="760" height="1020" fill="#f4f2ed"/>
+<line x1="24" y1="64" x2="736" y2="64" stroke="#d9d5ce"/>
+<text x="24" y="42" fill="#1b1b1a" font-size="20" font-weight="700" letter-spacing="-0.5">OpenJev</text>
+<text x="330" y="42" fill="#77736c" font-size="13">Local decision intelligence</text>
+<text x="668" y="42" fill="#1b1b1a" font-size="13">OpenAPI</text>
+<text x="24" y="100" fill="#8d4318" font-size="11" font-weight="800" letter-spacing="1.5">A LOCAL, INSPECTABLE DECISION ENGINE</text>
+<text x="24" y="148" fill="#1b1b1a" font-size="46" font-weight="700" letter-spacing="-2">Make the decision visible.</text>
+<text x="24" y="178" fill="#4f4a44" font-size="14">Test a narrow judgment, inspect the full distribution, and abstain when the evidence is too diffuse.</text>
+<rect x="24" y="196" width="712" height="792" rx="14" fill="#fffefa" stroke="#d9d5ce"/>
+<line x1="350" y1="196" x2="350" y2="988" stroke="#d9d5ce"/>
+<text x="44" y="228" fill="#77736c" font-size="10" font-weight="800" letter-spacing="1">BACKEND</text>
+<rect x="44" y="238" width="286" height="30" rx="6" fill="#f4f2ed" stroke="#d9d5ce"/>
+<text x="56" y="258" fill="#1b1b1a" font-size="13">Local heuristic</text>
+<text x="44" y="292" fill="#77736c" font-size="10" font-weight="800" letter-spacing="1">STATE</text>
+<rect x="44" y="300" width="286" height="66" rx="6" fill="#f4f2ed" stroke="#d9d5ce"/>
+<text x="56" y="322" fill="#1b1b1a" font-size="12">Charged twice again. I need my</text>
+<text x="56" y="340" fill="#1b1b1a" font-size="12">money back and this is the</text>
+<text x="56" y="358" fill="#1b1b1a" font-size="12">second month in a row.</text>
+<text x="44" y="392" fill="#77736c" font-size="10" font-weight="800" letter-spacing="1">QUESTION SET  ·  3 DECISIONS</text>
+<rect x="44" y="400" width="286" height="120" rx="6" fill="#f4f2ed" stroke="#d9d5ce"/>
+<text x="56" y="424" fill="#1b1b1a" font-size="12" font-weight="700">department — Choice</text>
+<text x="56" y="444" fill="#77736c" font-size="12">billing | technical | other</text>
+<text x="56" y="470" fill="#1b1b1a" font-size="12" font-weight="700">urgency — Score</text>
+<text x="56" y="490" fill="#77736c" font-size="12">routine | soon | priority</text>
+<text x="56" y="512" fill="#77736c" font-size="12">+ refund_requested — Noul</text>
+<text x="44" y="548" fill="#77736c" font-size="12">Abstain below 0.25  ·  Alternatives 3</text>
+<rect x="44" y="560" width="286" height="44" rx="8" fill="#1b1b1a"/>
+<text x="150" y="587" fill="#f4f2ed" font-size="14" font-weight="700" text-anchor="middle">Evaluate decision set  ⏎</text>
+<text x="44" y="628" fill="#77736c" font-size="12">Raw decision trace available under</text>
+<text x="44" y="646" fill="#77736c" font-size="12">every result (backend + latency).</text>
+<text x="370" y="228" fill="#8d4318" font-size="10" font-weight="800" letter-spacing="1">RESULT</text>
+<text x="620" y="228" fill="#77736c" font-size="11">0.39 ms · local</text>
+<text x="370" y="258" fill="#1b1b1a" font-size="22" font-weight="700" letter-spacing="-0.5">billing · refund · abstain</text>
+<line x1="370" y1="276" x2="716" y2="276" stroke="#d9d5ce"/>
+<text x="370" y="300" fill="#77736c" font-size="11" font-family="ui-monospace, Menlo, monospace">department</text>
+<text x="370" y="326" fill="#1b1b1a" font-size="22" font-weight="700">billing</text>
+<text x="640" y="322" fill="#8d4318" font-size="10" font-weight="800">DECIDED</text>
+<text x="370" y="350" fill="#1b1b1a" font-size="12">billing  0.719</text>
+<rect x="470" y="342" width="180" height="6" rx="3" fill="#d9d5ce"/><rect x="470" y="342" width="129" height="6" rx="3" fill="#ba5d1f"/>
+<text x="370" y="370" fill="#77736c" font-size="12">other  0.256  ·  technical  0.025</text>
+<text x="370" y="390" fill="#77736c" font-size="12">conf 0.383 · margin 0.463</text>
+<line x1="370" y1="408" x2="716" y2="408" stroke="#d9d5ce"/>
+<text x="370" y="432" fill="#77736c" font-size="11" font-family="ui-monospace, Menlo, monospace">urgency</text>
+<text x="370" y="458" fill="#1b1b1a" font-size="22" font-weight="700">tie 0.48 / 0.48</text>
+<text x="620" y="454" fill="#a13225" font-size="10" font-weight="800">ABSTAINED</text>
+<text x="370" y="482" fill="#77736c" font-size="12">routine 0.477 · soon 0.046 · priority 0.477</text>
+<text x="370" y="502" fill="#77736c" font-size="12">conf 0.228 &lt; 0.25 — “distribution is too diffuse”</text>
+<line x1="370" y1="520" x2="716" y2="520" stroke="#d9d5ce"/>
+<text x="370" y="544" fill="#77736c" font-size="11" font-family="ui-monospace, Menlo, monospace">refund_requested</text>
+<text x="370" y="570" fill="#1b1b1a" font-size="22" font-weight="700">true  (0.912)</text>
+<text x="640" y="566" fill="#8d4318" font-size="10" font-weight="800">DECIDED</text>
+<text x="370" y="594" fill="#1b1b1a" font-size="12">true  0.912</text>
+<rect x="470" y="586" width="180" height="6" rx="3" fill="#d9d5ce"/><rect x="470" y="586" width="164" height="6" rx="3" fill="#ba5d1f"/>
+<text x="370" y="614" fill="#77736c" font-size="12">false  0.088</text>
+<text x="370" y="634" fill="#77736c" font-size="12">conf 0.569 · margin 0.824</text>
+<rect x="370" y="656" width="346" height="60" rx="8" fill="#272522"/>
+<text x="384" y="680" fill="#e6dfd4" font-size="12" font-family="ui-monospace, Menlo, monospace">▸ Raw decision trace (3 events,</text>
+<text x="384" y="700" fill="#e6dfd4" font-size="12" font-family="ui-monospace, Menlo, monospace">  lexical overlap, per-question ms)</text>
+<text x="370" y="748" fill="#77736c" font-size="12">Run it: openjev serve → http://127.0.0.1:8787</text>
+<text x="370" y="770" fill="#77736c" font-size="12">Try: change “money back” to “app crashed”</text>
+<text x="370" y="792" fill="#77736c" font-size="12">and watch billing flip to technical.</text>
+<text x="370" y="830" fill="#77736c" font-size="12">Confidence = concentration, never proof.</text>
+<text x="44" y="700" fill="#77736c" font-size="12">One question per dimension.</text>
+<text x="44" y="722" fill="#77736c" font-size="12">Combine decisions in code.</text>
+</svg>

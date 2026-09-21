@@ -5,7 +5,7 @@
     "log_loss": 0.5150250635024614,
     "brier_score": 0.3508640346755227,
     "expected_calibration_error": 0.19092134484665257,
-    "mean_latency_ms": 0.09522292493784335,
+    "mean_latency_ms": 0.09067914998013293,
     "selective": [
       {
         "coverage": 1.0,
@@ -63,7 +63,7 @@
     "log_loss": 1.12045605882802,
     "brier_score": 0.8042261075355988,
     "expected_calibration_error": 0.37296430597551694,
-    "mean_latency_ms": 0.09119687501879525,
+    "mean_latency_ms": 0.0944302000789321,
     "selective": [
       {
         "coverage": 1.0,
@@ -120,7 +120,7 @@
     "encoder": "byte-l2",
     "feature_size": 256,
     "training_file": "train_demo.jsonl",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "training": {
       "epochs": 30,
       "learning_rate": 1.0,

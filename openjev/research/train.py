@@ -84,7 +84,7 @@ def train_model(train_file: Path, validation_file: Path, output: Path, *, epochs
     from openjev.research.model import ARCHITECTURE
 
     train_rows, validation_rows = records(train_file), records(validation_file)
-    model = OptionScorer(metadata={"architecture": ARCHITECTURE, "encoder": "byte-l2", "feature_size": 256, "training_file": train_file.name, "license": "MIT"})
+    model = OptionScorer(metadata={"architecture": ARCHITECTURE, "encoder": "byte-l2", "feature_size": 256, "training_file": train_file.name, "license": "Apache-2.0"})
     randomizer = random.Random(7)
     history = []
     for epoch in range(epochs):

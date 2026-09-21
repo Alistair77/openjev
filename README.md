@@ -108,6 +108,12 @@ asyncio.run(main())
 
 ## 3. Live capture: what a real response looks like
 
+Below is the actual playground UI (faithful recreation — pixel screenshots weren't
+available in this build environment, so this traces the real layout, theme, and live
+numbers 1:1). Run `openjev serve` and open `http://127.0.0.1:8787` to click through it.
+
+![Playground UI with the support-ticket example evaluated](docs/img/ui-playground.svg)
+
 Served locally (`uvicorn openjev.api:app`, port 8787) and captured verbatim — full JSON is in
 [`docs/captures/evaluate_support_ticket.json`](docs/captures/evaluate_support_ticket.json),
 OpenAPI schema in [`docs/captures/openapi.json`](docs/captures/openapi.json).
@@ -237,6 +243,19 @@ this repo's advantage is the deployable typed API around it. So I ported their *
 No confident errors observed on the probe set: every miss abstained. That is the claim —
 gated, not "never wrong".
 
+### Scoreboard and latency graphs
+
+![Accuracy showdown vs reported Jeff-class numbers](docs/img/showdown.svg)
+
+![Selective classification curve on our demo](docs/img/coverage-curve.svg)
+
+![Latency comparison on a log scale](docs/img/latency-bars.svg)
+
+Reading: we lose the accuracy contest on purpose (toy vs enterprise scale — different
+sports), we win the latency contest trivially (no neural net), and the coverage curve is
+the most useful chart here: it tells you exactly what abstention threshold buys what
+accuracy *on your own data* once you train a checkpoint.
+
 ---
 
 ## 6. API, CLI, playground, and integrations
@@ -304,8 +323,22 @@ integrations/       Claude Code adapter
 
 ---
 
-## 9. License
+## 9. How the real Jev and verdict-2.0 work (architecture, honestly labeled)
 
-MIT — built and maintained by **Alistair R ([@Alistair77](https://github.com/Alistair77))**. Research checkpoints you train are
+![Architecture: TypeSafe Jev vs openJev-verdict-2.0 vs this repo](docs/img/architecture-jevs.svg)
+
+The key distinction the diagram enforces: **TypeSafe's Jev internals are proprietary and
+unknown** — the only public fact is the typed-decisions interface idea. Everything else
+people (including me) say about its insides is inference. Verdict-2.0's internals *are*
+public (sequence layout, dual heads, per-k temperature, Permutation-KL training, ONNX
+pipeline), because its authors published them — that section of the diagram is sourced
+from [their README and RUNBOOK](https://github.com/Heman10x-NGU/openJev-verdict-2.0).
+This repo's lane is the deployable envelope any scorer can plug into.
+
+---
+
+## 10. License
+
+Apache-2.0 (see `LICENSE`) — built and maintained by **Alistair R ([@Alistair77](https://github.com/Alistair77))**. Research checkpoints you train are
 yours; the demo artifacts under `docs/captures/` and `runs/demo/` are regenerable via the
 commands in section 5.

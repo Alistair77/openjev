@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="860" viewBox="0 0 760 860" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="760" height="860" fill="#0e1116"/>
+<text x="30" y="38" fill="#f2f4f8" font-size="20" font-weight="bold">How typed decision engines work: real Jev vs open verdict-2.0 vs this repo</text>
+<text x="30" y="60" fill="#9aa4b2" font-size="12">Public-contract facts only. Proprietary internals are marked unknown — not guessed.</text>
+
+<text x="30" y="96" fill="#e3b341" font-size="12" font-weight="bold">A · TYPESAFE JEV (THE REAL THING — CLOSED SOURCE)</text>
+<rect x="30" y="106" width="700" height="150" rx="10" fill="#1a1503" stroke="#d29922"/>
+<text x="46" y="132" fill="#f2f4f8" font-size="13">Your app → typed request (state + Choice / Score / Noul schemas) → █ black box █ → probabilities + confidence</text>
+<text x="46" y="156" fill="#9aa4b2" font-size="12">Known publicly: the typed interface idea — decisions as distributions, not prose. ~150M params, ~140 ms/decision</text>
+<text x="46" y="176" fill="#9aa4b2" font-size="12">(timings as cataloged in openJev-verdict-2.0's benchmark table).</text>
+<text x="46" y="204" fill="#e3b341" font-size="12">Unknown (proprietary): architecture, weights, training data, calibration method. Any diagram claiming</text>
+<text x="46" y="224" fill="#e3b341" font-size="12">otherwise is fiction. This is exactly why open reimplementations exist.</text>
+
+<text x="30" y="292" fill="#7ee787" font-size="12" font-weight="bold">B · OPENJEV-VERDICT-2.0 (OPEN — FROM THEIR README + RUNBOOK)</text>
+<rect x="30" y="302" width="700" height="300" rx="10" fill="#12241a" stroke="#3fb950"/>
+<text x="46" y="330" fill="#f2f4f8" font-size="13">1 · Pack: [CLS] &lt;type&gt; &lt;question&gt; [SEP] [MASK]opt₀ [MASK]opt₁ … [SEP] &lt;state&gt; [SEP]</text>
+<text x="46" y="354" fill="#f2f4f8" font-size="13">2 · Encode once: ModernBERT-base 149.6M (+ GLiClass NLI framing, “It is {description}”)</text>
+<text x="46" y="378" fill="#f2f4f8" font-size="13">3 · Marker-pointer logits per option → split into TWO heads:</text>
+<text x="62" y="402" fill="#7ee787" font-size="13">Distribution head → soft probs (Brier 0.064)  ·  Confidence MLP head → P(correct) (ECE 1.4%)</text>
+<text x="46" y="426" fill="#f2f4f8" font-size="13">4 · Per-cardinality temperature scaling (auto-loaded calibrator.json)</text>
+<text x="46" y="450" fill="#f2f4f8" font-size="13">5 · Selective gate: high confidence → act · low → human · out-of-scope → __insufficient_evidence__</text>
+<text x="46" y="474" fill="#f2f4f8" font-size="13">6 · Ship: Hugging Face weights → ONNX → WebGPU in-browser (&lt;600 MB, &lt;35 ms, zero exfiltration)</text>
+<text x="46" y="502" fill="#9aa4b2" font-size="12">Trained: symmetric Permutation-KL (option-order bias 7.4% → 4.8%) · 8.8 h on a GTX 1660 Ti · 77.1% top-1,</text>
+<text x="46" y="522" fill="#9aa4b2" font-size="12">2,000 held-out enterprise decisions · contamination audits · failure gallery · 9 experiment receipts.</text>
+<text x="46" y="552" fill="#9aa4b2" font-size="12">Credit: Heman10x-NGU/openJev-verdict-2.0 (Apache-2.0). Numbers as they report them; receipts in their repo.</text>
+
+<text x="30" y="640" fill="#7fb3ff" font-size="12" font-weight="bold">C · THIS REPO — OPENJEV (THE DEPLOYABLE ENVELOPE)</text>
+<rect x="30" y="650" width="700" height="150" rx="10" fill="#16202b" stroke="#2f81f7"/>
+<text x="46" y="678" fill="#f2f4f8" font-size="13">Same typed envelope (FastAPI + CLI + TS SDK): state + Choice / Score / Noul → probs + abstention + trace</text>
+<text x="46" y="702" fill="#f2f4f8" font-size="13">Backends plug in like cartridges: local lexical (0.07 ms) · research byte scorer + T (0.09 ms) ·</text>
+<text x="46" y="722" fill="#f2f4f8" font-size="13">remote · hosted. Any scorer — including a verdict-style transformer — can live behind it.</text>
+<text x="46" y="750" fill="#9aa4b2" font-size="12">Relationship: this repo is the socket, verdict-2.0 is the strongest open bulb. Methods ported: temperature</text>
+<text x="46" y="770" fill="#9aa4b2" font-size="12">scaling, selective curves, latency receipts, docs-fresh tests, failure gallery. Model gap remains: byte</text>
+<text x="46" y="790" fill="#9aa4b2" font-size="12">histograms (75% toy) vs 150M transformer (77.1% enterprise) — no equivalence claimed, ever.</text>
+</svg>

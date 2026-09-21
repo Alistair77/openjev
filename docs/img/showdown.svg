@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="760" height="380" fill="#0e1116"/>
+<text x="30" y="34" fill="#f2f4f8" font-size="18" font-weight="bold">Top-1 accuracy on typed decisions (%)</text>
+<text x="30" y="86" fill="#9aa4b2" font-size="12">TypeSafe Jev 1.13.0</text>
+<rect x="250" y="70" width="286" height="22" rx="4" fill="#77736c"/>
+<text x="544" y="87" fill="#f2f4f8" font-size="13" font-weight="bold">72.7%</text>
+<text x="30" y="130" fill="#9aa4b2" font-size="12">Laya ModernBERT-large 421M</text>
+<rect x="250" y="114" width="373" height="22" rx="4" fill="#77736c"/>
+<text x="631" y="131" fill="#f2f4f8" font-size="13" font-weight="bold">76.6%</text>
+<text x="30" y="174" fill="#9aa4b2" font-size="12">openJev-verdict-2.0 150M</text>
+<rect x="250" y="158" width="385" height="22" rx="4" fill="#8d4318"/>
+<text x="643" y="175" fill="#f2f4f8" font-size="13" font-weight="bold">77.1%</text>
+<text x="30" y="218" fill="#9aa4b2" font-size="12">openjev research scorer (toy)*</text>
+<rect x="250" y="202" width="338" height="22" rx="4" fill="#ba5d1f"/>
+<text x="596" y="219" fill="#f2f4f8" font-size="13" font-weight="bold">75.0%</text>
+<text x="30" y="270" fill="#9aa4b2" font-size="11">Vendor numbers as reported by Heman10x-NGU/openJev-verdict-2.0</text>
+<text x="30" y="288" fill="#9aa4b2" font-size="11">on LocalLLaMA/typed-decisions (2,000 enterprise decisions).</text>
+<text x="30" y="314" fill="#e3b341" font-size="11">* Ours: 40-row billing-vs-technical demo — shown for scale only, NOT comparable.</text>
+<text x="30" y="340" fill="#9aa4b2" font-size="11">Takeaway: their 150M model is the real Jeff-class scorer; ours is a toy with a nice API.</text>
+</svg>
