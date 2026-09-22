@@ -38,7 +38,29 @@ NORMALIZED_TERMS = {
     "need": "request",
     "needs": "request",
     "requested": "request",
+    "reimburse": "refund",
+    "reimbursed": "refund",
+    "reimbursement": "refund",
+    "malfunction": "bug",
+    "malfunctioning": "bug",
 }
+
+
+def _stem(word: str) -> str:
+    """Naive suffix stemmer so `invoice`/`invoices`, `charge`/`charged` share a dimension.
+
+    Keeps the backend dependency-free. Short words are never stripped (min stem 4 chars).
+    Plurals: `crashes` -> `crash` but `invoices` -> `invoice` (only sibilant endings
+    lose `es`, the rest lose just `s`).
+    """
+    for suffix in ("ing", "ions", "ion", "ies", "ed", "ly"):
+        if word.endswith(suffix) and len(word) - len(suffix) >= 4:
+            return word[: -len(suffix)] + ("y" if suffix == "ies" else "")
+    if word.endswith("s") and len(word) - 1 >= 4 and word not in {"is", "as", "was", "has"}:
+        if word.endswith(("ses", "xes", "zes", "ches", "shes")):
+            return word[:-2]
+        return word[:-1]
+    return word
 
 
 def flatten(value: object) -> str:
@@ -49,7 +71,9 @@ def flatten(value: object) -> str:
 
 def tokens(value: object) -> Counter[str]:
     raw = TOKEN.findall(flatten(value).lower())
-    return Counter(NORMALIZED_TERMS.get(token, token) for token in raw if token not in STOP_WORDS)
+    return Counter(
+        _stem(NORMALIZED_TERMS.get(token, token)) for token in raw if token not in STOP_WORDS
+    )
 
 
 class LocalHeuristicBackend(DecisionBackend):

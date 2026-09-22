@@ -1,0 +1,25 @@
+{
+  "slices": {
+    "routing_accuracy": 0.9333,
+    "paraphrase_accuracy": 0.5,
+    "urgency_exact": 1.0,
+    "urgency_within_one": 1.0,
+    "noul_accuracy": 0.5,
+    "option_order_flip_rate": 0.0,
+    "missing_option_abstention_rate": 1.0,
+    "oos_abstention_rate": 1.0,
+    "load_50_concurrent_ms": 5.9,
+    "throughput_per_sec": 8476.7
+  },
+  "notes": [],
+  "routing_misses": [
+    {
+      "state": "Hello, just checking your opening hours",
+      "expected": "other",
+      "got": "billing",
+      "conf": 0.0,
+      "abstained": true
+    }
+  ],
+  "overall_routing_style_accuracy": 0.9333
+}
