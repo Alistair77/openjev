@@ -71,3 +71,20 @@ def predict(
     from openjev.research.model import OptionScorer
     model = OptionScorer.load(checkpoint)
     print_json({"probabilities": model.predict(context, option)})
+
+
+@app.command()
+def voice(
+    hotkey: Annotated[str, typer.Option(help="GlobalHotKeys spec, e.g. '<cmd>+<shift>+v'")] = "<cmd>+<shift>+v",
+    live: Annotated[bool, typer.Option(help="Actually execute actions (default is dry-run)")] = False,
+    text: Annotated[bool, typer.Option(help="Text mode: type utterances, no microphone needed")] = False,
+    stt: Annotated[str, typer.Option(help="sphinx (offline) or google (needs network)")] = "sphinx",
+    confidence: float = 0.30,
+) -> None:
+    """Push-to-talk Mac voice control: hotkey toggles listening, utterances execute."""
+    from openjev.voice.agent import VoiceAgent
+    agent = VoiceAgent(hotkey=hotkey, live=live, confidence=confidence, stt=stt)
+    if text:
+        agent.run_text_mode()
+    else:
+        agent.start()

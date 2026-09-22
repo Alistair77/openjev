@@ -390,7 +390,36 @@ This repo's lane is the deployable envelope any scorer can plug into.
 
 ---
 
-## 10. License
+## 10. Voice control — push-to-talk Mac agent
+
+Press the hotkey once: continuous voice input starts. Every utterance is classified by
+OpenJev (~0.07 ms) and executed immediately — no per-command confirmation. Press the
+hotkey again: listening stops.
+
+```bash
+pip install -e '.[voice]'          # SpeechRecognition + pocketsphinx (offline) + pynput
+# macOS will ask for Microphone + Accessibility permissions on first run — grant both.
+
+openjev voice --text               # try it now: type utterances, no mic needed (dry-run)
+openjev voice --live               # mic mode, actually executes (default hotkey <cmd>+<shift>+v)
+openjev voice --hotkey '<opt>+<shift>+v' --live --stt google
+```
+
+Understood commands: **open apps** ("open brave browser", "open the notes app"),
+**YouTube search** ("search youtube for lofi hip hop"), **web search**, **dictation**
+("type hello world"), **keys** ("press enter", "copy that"), **volume** ("mute").
+Anything unheard-of abstains and is skipped — gibberish never clicks anything.
+Dry-run is the default; `--live` executes. `allowed_apps` can restrict which apps open.
+
+Honest limits: the mic path itself (hotkey capture, live transcription) runs on your
+Mac — it was built and import-verified here, not microphone-tested here (no mic in this
+environment). Offline Sphinx recognition is fast but less accurate than cloud STT; use
+`--stt google` when it matters. The decision layer is fully tested: 11/11 sample
+utterances classify correctly, gibberish abstains (`tests/test_voice.py`, 17 tests).
+
+---
+
+## 11. License
 
 Apache-2.0 (see `LICENSE`) — built and maintained by **Alistair R ([@Alistair77](https://github.com/Alistair77))**. Research checkpoints you train are
 yours; the demo artifacts under `docs/captures/` and `runs/demo/` are regenerable via the
