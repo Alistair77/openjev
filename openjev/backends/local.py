@@ -6,6 +6,7 @@ import time
 from collections import Counter
 
 from openjev.backends.base import DecisionBackend
+from openjev.lang import analyse as analyse_language
 from openjev.math import concentration_confidence, normalize_mapping
 from openjev.models import (
     Alternative,
@@ -81,6 +82,10 @@ class LocalHeuristicBackend(DecisionBackend):
         started = time.perf_counter()
         answers = {}
         trace = []
+        language = analyse_language(request.state)
+        strategy = {"strategy": "lexical overlap", "state_script": language["script"]}
+        if not language["is_english"]:
+            strategy["warning"] = "non-English state: lexical matching is unreliable, expect abstention"
         for question_id, question in request.questions.items():
             question_started = time.perf_counter()
             if isinstance(question, ChoiceQuestion):
@@ -134,5 +139,5 @@ class LocalHeuristicBackend(DecisionBackend):
                     margin=margin,
                     calibration={"method": "uncalibrated lexical baseline"},
                 )
-            trace.append(TraceEvent(question_id=question_id, backend=self.name, latency_ms=(time.perf_counter() - question_started) * 1000, detail={"strategy": "lexical overlap"}))
+            trace.append(TraceEvent(question_id=question_id, backend=self.name, latency_ms=(time.perf_counter() - question_started) * 1000, detail=dict(strategy)))
         return EvaluateResponse(model=self.model, backend=self.name, answers=answers, latency_ms=(time.perf_counter() - started) * 1000, trace=trace if request.options.trace else [])

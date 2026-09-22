@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="860" viewBox="0 0 760 860" font-family="Helvetica, Arial, sans-serif">
-<rect x="0" y="0" width="760" height="860" fill="#0e1116"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1010" viewBox="0 0 760 1010" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="760" height="1010" fill="#0e1116"/>
 <text x="30" y="38" fill="#f2f4f8" font-size="20" font-weight="bold">How typed decision engines work: real Jev vs open verdict-2.0 vs this repo</text>
 <text x="30" y="60" fill="#9aa4b2" font-size="12">Public-contract facts only. Proprietary internals are marked unknown — not guessed.</text>
 
@@ -32,4 +32,12 @@
 <text x="46" y="750" fill="#9aa4b2" font-size="12">Relationship: this repo is the socket, verdict-2.0 is the strongest open bulb. Methods ported: temperature</text>
 <text x="46" y="770" fill="#9aa4b2" font-size="12">scaling, selective curves, latency receipts, docs-fresh tests, failure gallery. Model gap remains: byte</text>
 <text x="46" y="790" fill="#9aa4b2" font-size="12">histograms (75% toy) vs 150M transformer (77.1% enterprise) — no equivalence claimed, ever.</text>
+
+<text x="30" y="826" fill="#c98a5e" font-size="12" font-weight="bold">D · LAYA (OPEN, PUBLISHED PACKAGE — FROM THEIR README + BENCHMARKS.md)</text>
+<rect x="30" y="836" width="700" height="144" rx="10" fill="#1d1712" stroke="#c98a5e"/>
+<text x="46" y="862" fill="#f2f4f8" font-size="13">Script/language Router → 1 of 3 checkpoints (421M English · 322M multilingual · 421M typed-decisions)</text>
+<text x="46" y="886" fill="#f2f4f8" font-size="13">Single forward pass (~33 ms) → Choice / Score / Noul + per-(type, k) temperatures + presets + shortlist</text>
+<text x="46" y="910" fill="#9aa4b2" font-size="12">76.6% top-1 typed-decisions · 45/51 languages usable · PyPI + HF Space · honest-limits section.</text>
+<text x="46" y="930" fill="#9aa4b2" font-size="12">Credit: NandhaKishorM/laya (Apache-2.0). Ported here: presets, shortlist, email/lang utils, grouped temps.</text>
+<text x="46" y="954" fill="#9aa4b2" font-size="12">Not ported: the 421M weights themselves — different league, different hardware.</text>
 </svg>

@@ -191,7 +191,7 @@ openjev predict runs/demo/model.json --context "refund my duplicate payment" --o
 | Selective: accuracy at 50% coverage | **1.00** (0.75 at full coverage) | Abstaining on the least-confident half removes every error on this demo |
 | Shuffled-context control | acc **0.45**, log-loss 0.84 | Model beats control by 30 pts — signal is real, not bias |
 | Mean latency | **~0.09 ms** / row (p50 0.09, p99 0.10) | Trivial CPU cost; receipt in `docs/captures/latency.json` |
-| Unit tests / lint | **8/8 pytest passed**, `ruff` clean | `tests/` + contract + API + research + docs-fresh |
+| Unit tests / lint | **22/22 pytest passed**, `ruff` clean | `tests/` + contract + API + research + docs-fresh + presets + shortlist + email/lang |
 
 **What fixed it:** v1 used length-normalized byte histograms whose products were ~1e-3, so
 gradients at the default learning rate were microscopic and training sat at chance
@@ -230,6 +230,11 @@ this repo's advantage is the deployable typed API around it. So I ported their *
   abstention mechanism demonstrably buys accuracy.
 - **Docs-freshness test** (`tests/test_docs_fresh.py`): the numbers quoted in this README
   are asserted against `docs/captures/*.json` on every test run. Drift fails the build.
+- **Per-group temperatures** (`fit_temperature_by_group`): Laya fits one temperature per
+  (question type, option count) and moved mean ECE 0.466 → 0.081 that way. Our trainer
+  does the same whenever validation rows carry a `group` key, storing
+  `temperatures_by_group` in the checkpoint metadata (groups under 2 rows fall back to
+  1.0 instead of overfitting).
 - **Latency receipts** (`scripts/benchmark_latency.py` → `docs/captures/latency.json`):
   local 3-question request p50 0.07ms / p99 0.25ms; research predict p50 0.09ms.
 
@@ -273,6 +278,45 @@ accuracy *on your own data* once you train a checkpoint.
   plus a Claude Code adapter under [`integrations/claude-code`](integrations/claude-code).
 - **Docker**: `docker build -t openjev . && docker run -p 8787:8787 openjev`.
 
+### Workflow presets (start from a working contract, not a blank page)
+
+Adapted from [NandhaKishorM/laya](https://github.com/NandhaKishorM/laya) (`laya/presets.py`,
+Apache-2.0) — Laya is the stronger open Jeff (421M checkpoints, 76.6% on typed-decisions,
+multilingual Router, PyPI package), and its preset schemas are its most portable idea.
+Every preset below validates against this repo's strict v1 contract:
+
+```python
+from openjev import OpenJev, presets
+
+questions = presets.triage_questions()      # intent / is_urgent / frustration / refund_requested / churn_risk
+questions = presets.email_questions()       # category / is_spam / is_phishing / urgency / needs_reply
+questions = presets.guard_questions()       # jailbreak / prompt_injection / sensitive_data / harm_severity / topic
+questions = presets.moderation_questions()  # toxic / harassment / threat / spam / severity
+questions = presets.router_questions()      # difficulty / domain / needs_tools / is_sensitive
+```
+
+Live check on this build: `"Billed twice for March, refund now or I cancel."` through the
+triage preset returns `intent=refund`, `refund_requested=0.91`, `churn_risk=0.91`.
+
+### Shortlisting big option sets + email/language helpers (also from Laya)
+
+- **Shortlist** (`openjev/shortlist.py`): keep the top-k options by cosine similarity,
+  then evaluate only those — Laya's answer to high-cardinality choices, reimplemented
+  against our criteria format with an offline `lexical_embed_fn` (or bring your own
+  `embed_fn`). Reductions are reported, never silent:
+  ```python
+  from openjev.shortlist import lexical_embed_fn, reduce_questions, shortlist_choice
+  meta = shortlist_choice(state, big_criteria, lexical_embed_fn(), k=5)
+  request = {"state": state, "questions": reduce_questions(questions, {"route": meta["labels"]})}
+  ```
+- **Email states** (`openjev/email.py`): `clean_email_body` strips quoted history,
+  signatures, and disclaimer boilerplate before the state reaches a backend.
+- **Language awareness** (`openjev/lang.py`): dependency-free script/language detection.
+  The local backend records `state_script` in every trace event and warns openly on
+  non-English input (`"lexical matching is unreliable, expect abstention"`) instead of
+  scoring noise with a straight face — Laya's core routing insight (confidence can't save
+  you when the model can't read the script), applied to our lexical backend.
+
 Request envelope (`api_version: "v1"`, extra fields forbidden):
 
 ```json
@@ -293,12 +337,13 @@ Request envelope (`api_version: "v1"`, extra fields forbidden):
 
 ```
 openjev/            core: models.py (v1 envelope) · math.py (softmax/entropy) · client.py · api.py · cli.py
+openjev/            helpers: presets.py (5 workflow schemas) · shortlist.py (top-k) · email.py · lang.py
 openjev/backends/   local.py · mock.py · openai_compatible.py · remote.py · base.py
-openjev/research/   model.py (OptionScorer v2 + temperature) · calibrate.py (temperature fit) · train.py (metrics + shuffled control + selective curve) · backend.py
+openjev/research/   model.py (OptionScorer v2 + temperature) · calibrate.py (global + grouped T) · train.py (metrics + shuffled control + selective curve) · backend.py
 openjev_ts/         TypeScript SDK (same envelope)
 web/                playground (index.html · app.js · styles.css)
 examples/           support_ticket.json (the demo used above)
-tests/              contract + local backend + API + research + docs-fresh (8 tests)
+tests/              contract + local + API + research + calibrate + docs-fresh + presets + shortlist + email/lang (22 tests)
 scripts/            benchmark_latency.py (p50/p90/p99 receipt)
 docs/captures/      verbatim live captures: health, evaluate, openapi, playground, training data/results, latency
 docs/img/           architecture.svg · lifecycle.svg · training_curve.svg (diagrams)
@@ -320,6 +365,9 @@ integrations/       Claude Code adapter
    overriding it.
 4. No proprietary weights/data/claims inside; do not present benchmark numbers from the
    toy demo as production performance.
+5. Many options (>20) diffuse lexical scoring — shortlist first (`openjev/shortlist.py`),
+   same guidance Laya gives its own checkpoint. Non-English states are flagged in the
+   trace; the local backend cannot read them, full stop.
 
 ---
 
@@ -333,6 +381,11 @@ people (including me) say about its insides is inference. Verdict-2.0's internal
 public (sequence layout, dual heads, per-k temperature, Permutation-KL training, ONNX
 pipeline), because its authors published them — that section of the diagram is sourced
 from [their README and RUNBOOK](https://github.com/Heman10x-NGU/openJev-verdict-2.0).
+Laya's lane is sourced from [its README and BENCHMARKS.md](https://github.com/NandhaKishorM/laya)
+— the standout there isn't just accuracy (76.6%) but product craft: a published package,
+three routed checkpoints, committed benchmark receipts with seeds and hardware noted, and
+an honest-limits section that admits where Jev beats it (high-cardinality options, soft
+distribution matching, raw calibration). That honesty is the standard this repo copies.
 This repo's lane is the deployable envelope any scorer can plug into.
 
 ---

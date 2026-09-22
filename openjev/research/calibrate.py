@@ -52,3 +52,28 @@ def fit_temperature(
         else:
             left = middle_left
     return (left + right) / 2
+
+
+def fit_temperature_by_group(
+    all_logits: list[list[float]],
+    labels: list[int],
+    groups: list[str],
+) -> dict[str, float]:
+    """Fit one temperature per group (e.g. per question type / option count).
+
+    Adapted from Laya's per-(question type, option count) temperature tables,
+    which moved their mean ECE 0.466 -> 0.081: one global temperature cannot fit
+    groups with different sharpness. Groups with fewer than 2 rows fall back to
+    1.0 (unfitted) rather than overfitting noise.
+    """
+    by_group: dict[str, tuple[list[list[float]], list[int]]] = {}
+    for logits, label, group in zip(all_logits, labels, groups):
+        bucket = by_group.setdefault(group, ([], []))
+        bucket[0].append(logits)
+        bucket[1].append(label)
+    temperatures = {}
+    for group, (group_logits, group_labels) in by_group.items():
+        temperatures[group] = (
+            fit_temperature(group_logits, group_labels) if len(group_labels) >= 2 else 1.0
+        )
+    return temperatures

@@ -6,7 +6,7 @@ import random
 import time
 from pathlib import Path
 
-from openjev.research.calibrate import fit_temperature, mean_nll
+from openjev.research.calibrate import fit_temperature, fit_temperature_by_group, mean_nll
 from openjev.research.model import OptionScorer
 
 
@@ -97,13 +97,22 @@ def train_model(train_file: Path, validation_file: Path, output: Path, *, epochs
     nll_before = mean_nll(validation_logits, validation_labels, 1.0)
     temperature = fit_temperature(validation_logits, validation_labels)
     model.temperature = temperature
-    model.metadata["calibration"] = {
+    calibration_record: dict[str, object] = {
         "method": "temperature scaling on validation logits",
         "temperature": temperature,
         "validation_nll_before": nll_before,
         "validation_nll_after": mean_nll(validation_logits, validation_labels, temperature),
         "credit": "practice adapted from Heman10x-NGU/openJev-verdict-2.0 (Apache-2.0)",
     }
+    if any(isinstance(row.get("group"), str) for row in validation_rows):
+        groups = [str(row.get("group", "default")) for row in validation_rows]
+        calibration_record["temperatures_by_group"] = fit_temperature_by_group(
+            validation_logits, validation_labels, groups
+        )
+        calibration_record["group_credit"] = (
+            "per-group tables adapted from NandhaKishorM/laya (Apache-2.0)"
+        )
+    model.metadata["calibration"] = calibration_record
     model.save(output)
     return {"checkpoint": str(output), "history": history, "shuffled_context_control": shuffled_context_control(model, validation_rows)}
 
