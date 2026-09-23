@@ -63,6 +63,9 @@ def test_text_mode_pipeline_end_to_end():
 
 
 def test_parse_hotkey_rejects_garbage():
-    assert parse_hotkey("<cmd>+<shift>+v") == "<cmd>+<shift>+v"
+    assert parse_hotkey("tap:option") == ("tap", "option")
+    assert parse_hotkey("<cmd>+<shift>+v") == ("combo", "<cmd>+<shift>+v")
     with pytest.raises(ValueError):
         parse_hotkey("just a key")
+    with pytest.raises(ValueError):
+        parse_hotkey("tap:spacebar")

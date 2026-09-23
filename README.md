@@ -398,16 +398,22 @@ hotkey again: listening stops.
 
 ```bash
 pip install -e '.[voice]'          # SpeechRecognition + pocketsphinx (offline) + pynput
-# macOS will ask for Microphone + Accessibility permissions on first run — grant both.
+# macOS will ask for Microphone + Input Monitoring; grant both (steps below).
 
 openjev voice --text               # try it now: type utterances, no mic needed (dry-run)
-openjev voice --live               # mic mode, actually executes (default hotkey <cmd>+<shift>+v)
-openjev voice --hotkey '<opt>+<shift>+v' --live --stt google
+openjev voice --live               # mic mode, actually executes (default hotkey: tap Option)
+openjev voice --hotkey '<cmd>+<shift>+v' --live   # or a classic combo instead of a tap
+openjev voice-app --live           # native menu-bar app: mic icon, dropdown menu, overlay pill
 ```
+
+Hotkey: **tap Option once** (press+release, no other keys — FluidVoice-style) starts
+continuous listening; tap again stops. Holding Option for shortcuts never triggers it.
+`tap:cmd`, `tap:ctrl`, `tap:shift` also work; combos like `<cmd>+<shift>+v` still work.
 
 Understood commands: **open apps** ("open brave browser", "open the notes app"),
 **YouTube search** ("search youtube for lofi hip hop"), **web search**, **dictation**
-("type hello world"), **keys** ("press enter", "copy that"), **volume** ("mute").
+("type hello world" — pasted at your cursor via clipboard, then clipboard restored),
+**keys** ("press enter", "copy that"), **volume** ("mute").
 Anything unheard-of abstains and is skipped — gibberish never clicks anything.
 Dry-run is the default; `--live` executes. `allowed_apps` can restrict which apps open.
 

@@ -14,6 +14,42 @@ from typing import Any
 from openjev.voice.focus import delivery_decision, focused_target
 
 
+def _pasteboard():
+    """NSPasteboard accessor (indirection so tests never touch the real clipboard)."""
+    from AppKit import NSPasteboard
+    return NSPasteboard.generalPasteboard()
+
+
+def _send_paste():
+    """Cmd+V via pynput (indirection so tests never press real keys)."""
+    from pynput.keyboard import Controller, Key
+    keyboard = Controller()
+    keyboard.press(Key.cmd)
+    keyboard.press("v")
+    keyboard.release("v")
+    keyboard.release(Key.cmd)
+
+
+def _paste_via_clipboard(text: str) -> None:
+    """Paste through the clipboard: instant even for long text, lands at the cursor.
+
+    Saves + restores the previous clipboard so dictation never eats it.
+    """
+    import time
+
+    from AppKit import NSPasteboardTypeString
+    board = _pasteboard()
+    previous = board.stringForType_(NSPasteboardTypeString)
+    previous_types = board.types()
+    board.declareTypes_owner_([NSPasteboardTypeString], None)
+    board.setString_forType_(text, NSPasteboardTypeString)
+    _send_paste()
+    time.sleep(0.4)  # let the target app consume the paste before restoring
+    board.declareTypes_owner_(list(previous_types or [NSPasteboardTypeString]), None)
+    if previous:
+        board.setString_forType_(previous, NSPasteboardTypeString)
+
+
 class MacActions:
     """Execute (or describe, when dry) on-screen actions."""
 
@@ -51,10 +87,8 @@ class MacActions:
         if delivery_decision(target["role"]) == "refuse":
             where = f"{target['role']} in {target['app']}" if target["app"] else str(target["role"])
             return {"ok": False, "detail": f"not in a text field (focused: {where}) — kept transcript, typed nothing"}
-        from pynput.keyboard import Controller
-
-        Controller().type(action["text"])
-        return {"ok": True, "detail": f"typed {len(action['text'])} chars"}
+        _paste_via_clipboard(action["text"])
+        return {"ok": True, "detail": f"pasted {len(action['text'])} chars at cursor"}
 
     def _do_press_key(self, action: dict[str, Any]) -> dict[str, Any]:
         if not self.live:

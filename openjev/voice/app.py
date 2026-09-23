@@ -173,6 +173,25 @@ class VoiceMenuApp:
         self._set_icon(self.agent._voice_state)
         self.refresh_menu()
 
+    def flash_ready(self) -> None:
+        """Show the pill for ~2.5s at launch: IDLE -> LISTENING -> IDLE (all legal)."""
+        import threading
+
+        from openjev.voice.states import VoiceState
+        self.agent._set_state(VoiceState.LISTENING, status="Jev Voice ready — tap ⌥ to talk")
+        if self.agent._overlay is not None:
+            self.agent._overlay.set_session_active(False)
+
+        def hide_again() -> None:
+            try:
+                self.agent._set_state(VoiceState.IDLE)
+            except ValueError:
+                pass  # user started talking meanwhile; leave their session alone
+            if self.agent._overlay is not None:
+                self.agent._overlay.hide()
+
+        threading.Timer(2.5, hide_again).start()
+
     def on_quit(self) -> None:
         from AppKit import NSApplication
         NSApplication.sharedApplication().terminate_(None)

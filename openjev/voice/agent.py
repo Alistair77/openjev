@@ -8,7 +8,6 @@ this module — and running `--text` mode — never needs a microphone or permis
 from __future__ import annotations
 
 import asyncio
-import re
 import threading
 from typing import Any
 
@@ -16,17 +15,17 @@ from openjev.backends.local import LocalHeuristicBackend
 from openjev.models import EvaluateRequest
 from openjev.voice.actions import MacActions
 from openjev.voice.commands import INTENT_QUESTION, build_action, extract_slots
+from openjev.voice.hotkey import TapHotkey
+from openjev.voice.hotkey import parse_hotkey as _parse_hotkey_spec
 from openjev.voice.states import VoiceState, transition
 
-DEFAULT_HOTKEY = "<cmd>+<shift>+v"
+DEFAULT_HOTKEY = "tap:option"
 DEFAULT_CONFIDENCE = 0.30
 
 
-def parse_hotkey(spec: str) -> str:
-    """Validate a pynput GlobalHotKeys spec like `<cmd>+<shift>+v`."""
-    if not re.fullmatch(r"[<>\w+ ]+", spec) or "+" not in spec:
-        raise ValueError(f"hotkey must look like '<cmd>+<shift>+v', got {spec!r}")
-    return spec
+def parse_hotkey(spec: str):
+    """Validate a hotkey spec; see hotkey.parse_hotkey."""
+    return _parse_hotkey_spec(spec)
 
 
 def classify(text: str, confidence_threshold: float = DEFAULT_CONFIDENCE) -> dict[str, Any]:
@@ -54,6 +53,7 @@ class VoiceAgent:
                  stt: str = "sphinx", allowed_apps: set[str] | None = None,
                  overlay: bool = True) -> None:
         self.hotkey = parse_hotkey(hotkey)
+        self.hotkey_label = hotkey
         self.actions = MacActions(live=live, allowed_apps=allowed_apps)
         self.confidence = confidence
         self.stt = stt
@@ -166,11 +166,19 @@ class VoiceAgent:
             self._overlay = controller
 
     def begin(self) -> None:
-        """Start the global hotkey listener without blocking (for UI shells)."""
-        from pynput import keyboard
-        if self._hotkey_listener is None:
-            self._hotkey_listener = keyboard.GlobalHotKeys({self.hotkey: self.toggle})
-            self._hotkey_listener.start()
+        """Start the hotkey listener without blocking (for UI shells)."""
+        if self._hotkey_listener is not None:
+            return
+        mode, spec = self.hotkey
+        if mode == "tap":
+            tap = TapHotkey(key=spec, callback=self.toggle)
+            tap.start()
+            self._hotkey_listener = tap
+        else:
+            from pynput import keyboard
+            listener = keyboard.GlobalHotKeys({spec: self.toggle})
+            listener.start()
+            self._hotkey_listener = listener
 
     def end(self) -> None:
         """Stop listener + listening (for UI shells)."""
@@ -191,7 +199,7 @@ class VoiceAgent:
                 self._overlay.start()  # builds on this (main) thread; AppKit requires it
             else:
                 print("(overlay unavailable: no GUI session — terminal output only)")
-        print(f"push-to-talk: press {self.hotkey} to start/stop listening. Ctrl-C quits. "
+        print(f"push-to-talk: {self._hotkey_hint()} to start/stop listening. Ctrl-C quits. "
               f"{'LIVE' if self.actions.live else 'dry-run (add --live to execute)'}")
         self.begin()
         try:
@@ -205,6 +213,12 @@ class VoiceAgent:
             self.end()
             if self._overlay is not None:
                 self._overlay.stop()
+
+    def _hotkey_hint(self) -> str:
+        mode, spec = self.hotkey
+        if mode == "tap":
+            return f"tap {spec} (press+release quickly, no other keys)"
+        return f"press {spec}"
 
     def toggle(self) -> None:
         if self.listening:

@@ -75,7 +75,7 @@ def predict(
 
 @app.command()
 def voice(
-    hotkey: Annotated[str, typer.Option(help="GlobalHotKeys spec, e.g. '<cmd>+<shift>+v'")] = "<cmd>+<shift>+v",
+    hotkey: Annotated[str, typer.Option(help="'tap:option' (tap Option, FluidVoice-style) or combo '<cmd>+<shift>+v'")] = "tap:option",
     live: Annotated[bool, typer.Option(help="Actually execute actions (default is dry-run)")] = False,
     text: Annotated[bool, typer.Option(help="Text mode: type utterances, no microphone needed")] = False,
     stt: Annotated[str, typer.Option(help="sphinx (offline) or google (needs network)")] = "sphinx",
@@ -94,7 +94,7 @@ def voice(
 @app.command(name="voice-app")
 def voice_app(
     live: Annotated[bool, typer.Option(help="Actually execute actions (default is dry-run)")] = False,
-    hotkey: Annotated[str, typer.Option()] = "<cmd>+<shift>+v",
+    hotkey: Annotated[str, typer.Option()] = "tap:option",
     stt: Annotated[str, typer.Option()] = "sphinx",
     confidence: float = 0.30,
 ) -> None:
