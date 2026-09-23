@@ -57,13 +57,18 @@ class VoiceMenuApp:
 
         app = NSApplication.sharedApplication()
         app.setActivationPolicy_(1)
+        print("jev-voice: building menu bar…", flush=True)
         self._build_status_item()
+        print("jev-voice: menu bar ready", flush=True)
         self._build_overlay()
+        print("jev-voice: overlay ready", flush=True)
         self.agent.begin()  # hotkey listener, non-blocking
+        print("jev-voice: hotkey armed", flush=True)
         target = _PumpTarget.alloc().initWithApp_(self)
         NSTimer.scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_(
             1.0 / 30.0, target, "fire:", None, True)
         self._targets = [target]  # keep alive
+        print("jev-voice: entering runloop (menu-bar icon should be visible)", flush=True)
         try:
             app.run()
         except KeyboardInterrupt:
@@ -175,11 +180,15 @@ class _PumpTarget:
                 return self
 
             def fire_(self, _timer):
-                overlay = getattr(self._app.agent, "_overlay", None)
-                if overlay is not None:
-                    overlay.pump_once()
-                self._app._set_icon(self._app.agent._voice_state)
-                self._app.refresh_menu()
+                try:
+                    overlay = getattr(self._app.agent, "_overlay", None)
+                    if overlay is not None:
+                        overlay.pump_once()
+                    self._app._set_icon(self._app.agent._voice_state)
+                    self._app.refresh_menu()
+                except Exception:
+                    import traceback
+                    traceback.print_exc()  # UI errors must never trap the runloop
 
         return PumpTarget.alloc()
 

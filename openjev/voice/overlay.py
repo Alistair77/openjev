@@ -114,7 +114,7 @@ def _make_view_class():
             color = _STATE_COLORS.get(state, _STATE_COLORS[VoiceState.LISTENING])
             paint = NSColor.colorWithCalibratedRed_green_blue_alpha_(*color, 0.95)
             if state in (VoiceState.SUCCESS, VoiceState.ERROR):
-                ring = NSBezierPath.bezierPathWithOvalInRect_((cx - 20, cy - 20, 40, 40))
+                ring = NSBezierPath.bezierPathWithOvalInRect_(((cx - 20, cy - 20), (40, 40)))
                 paint.set()
                 ring.setLineWidth_(3.0)
                 ring.stroke()
@@ -142,13 +142,13 @@ def _make_view_class():
                 fade = 0.45 + 0.55 * (0.5 + 0.5 * math.sin(t * 3 + i))
                 NSColor.colorWithCalibratedRed_green_blue_alpha_(
                     color[0], color[1], color[2], fade * (0.75 + 0.25 * pulse)).set()
-                NSBezierPath.bezierPathWithOvalInRect_((x - 2.6, y - 2.6, 5.2, 5.2)).fill()
+                NSBezierPath.bezierPathWithOvalInRect_(((x - 2.6, y - 2.6), (5.2, 5.2))).fill()
             if state is VoiceState.LISTENING:
                 ring_r = 20 + 6 * pulse
                 NSColor.colorWithCalibratedRed_green_blue_alpha_(
                     *color, 0.35 * (1 - pulse) + 0.1).set()
                 ring = NSBezierPath.bezierPathWithOvalInRect_(
-                    (cx - ring_r, cy - ring_r, ring_r * 2, ring_r * 2))
+                    ((cx - ring_r, cy - ring_r), (ring_r * 2, ring_r * 2)))
                 ring.setLineWidth_(1.5)
                 ring.stroke()
 
