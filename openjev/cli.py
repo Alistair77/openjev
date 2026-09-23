@@ -89,3 +89,15 @@ def voice(
         agent.run_text_mode()
     else:
         agent.start()
+
+
+@app.command(name="voice-app")
+def voice_app(
+    live: Annotated[bool, typer.Option(help="Actually execute actions (default is dry-run)")] = False,
+    hotkey: Annotated[str, typer.Option()] = "<cmd>+<shift>+v",
+    stt: Annotated[str, typer.Option()] = "sphinx",
+    confidence: float = 0.30,
+) -> None:
+    """Native menu-bar voice control app (no terminal needed)."""
+    from openjev.voice.app import main
+    main(live=live, hotkey=hotkey, stt=stt, confidence=confidence)

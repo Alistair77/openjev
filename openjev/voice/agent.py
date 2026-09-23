@@ -63,6 +63,8 @@ class VoiceAgent:
         self._want_overlay = overlay
         self._lock = threading.Lock()
         self._voice_state = VoiceState.IDLE
+        self._hotkey_listener = None
+        self.on_heard = None  # optional callback(text) for UI shells
 
     # -- overlay + state machine (agent owns transitions, overlay renders) --
     def _set_state(self, state: VoiceState, status: str = "", transcript: str = "") -> None:
@@ -97,6 +99,8 @@ class VoiceAgent:
 
     def _handle_utterance(self, text: str) -> dict:
         """Full pipeline for one utterance: TRANSCRIBING -> EXECUTING -> SUCCESS|ERROR."""
+        if self.on_heard is not None:
+            self.on_heard(text)
         self._set_state(VoiceState.TRANSCRIBING, status="Heard you…", transcript=text)
         result = classify(text, self.confidence)
         if result["intent"] is None or result["action"].get("action") == "unheard":
@@ -135,11 +139,28 @@ class VoiceAgent:
             outcome = self.handle_text(text)
             print(f"jev> intent={outcome['intent']} conf={outcome['confidence']} -> {outcome['report']['detail']}")
 
-    # -- live microphone mode (main thread pumps overlay; hotkey runs behind) --
+    def attach_overlay(self, controller) -> None:
+        """Attach (or detach with None) an overlay controller. Thread-safe."""
+        with self._lock:
+            self._overlay = controller
+
+    def begin(self) -> None:
+        """Start the global hotkey listener without blocking (for UI shells)."""
+        from pynput import keyboard
+        if self._hotkey_listener is None:
+            self._hotkey_listener = keyboard.GlobalHotKeys({self.hotkey: self.toggle})
+            self._hotkey_listener.start()
+
+    def end(self) -> None:
+        """Stop listener + listening (for UI shells)."""
+        if self._hotkey_listener is not None:
+            self._hotkey_listener.stop()
+            self._hotkey_listener = None
+        self._stop_listening()
+
+    # -- live microphone mode (terminal): main thread pumps overlay --------
     def start(self) -> None:
         import time
-
-        from pynput import keyboard
 
         if self._want_overlay:
             from openjev.voice import overlay as overlay_module
@@ -151,8 +172,7 @@ class VoiceAgent:
                 print("(overlay unavailable: no GUI session — terminal output only)")
         print(f"push-to-talk: press {self.hotkey} to start/stop listening. Ctrl-C quits. "
               f"{'LIVE' if self.actions.live else 'dry-run (add --live to execute)'}")
-        listener = keyboard.GlobalHotKeys({self.hotkey: self.toggle})
-        listener.start()
+        self.begin()
         try:
             while True:
                 if self._overlay is not None:
@@ -161,8 +181,7 @@ class VoiceAgent:
         except KeyboardInterrupt:
             pass
         finally:
-            listener.stop()
-            self._stop_listening()
+            self.end()
             if self._overlay is not None:
                 self._overlay.stop()
 

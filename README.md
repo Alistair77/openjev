@@ -423,6 +423,8 @@ tested state machine (`openjev/voice/states.py`):
 → `SUCCESS` (green check, 0.9s) or `ERROR` (red X, 1.6s) → back to `LISTENING`.
 Unheard input returns to listening with neither. Illegal transitions raise instead
 of silently mis-rendering (`tests/test_voice_states.py` walks the full graph).
+Run the overlay from your own Terminal — sandboxed/remote sessions cannot composite
+windows on your screen (AppKit requires a GUI session on the main thread).
 
 ### Mic test procedure (run on your Mac — no mic here)
 
