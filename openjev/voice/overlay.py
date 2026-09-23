@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import math
 import queue
-import threading
 import time
 from dataclasses import dataclass
 from typing import Any
@@ -163,23 +162,27 @@ class OverlayController:
     guards with `states.transition` under a lock). When a SUCCESS/ERROR hold
     expires, the controller calls `on_return` so the agent can transition back
     to LISTENING itself — no split-brain between threads.
+
+    AppKit requires windows on the MAIN thread: `start()` builds NSApp + panel
+    on the calling thread (call it from main), and the caller drives
+    `pump_once()` from its main loop. Inbox traffic may come from any thread.
     """
 
     def __init__(self) -> None:
         self._model = _OverlayModel()
         self._inbox: queue.Queue = queue.Queue()
-        self._thread: threading.Thread | None = None
         self._view: Any = None
         self._panel: Any = None
-        self._stopping = False
-        self.on_return = None  # called (UI thread) when a hold expires, session active
+        self._built = False
+        self.on_return = None  # called (main thread, via pump) when a hold expires, session active
 
     # -- public, thread-safe -------------------------------------------
     def start(self) -> None:
-        if self._thread is not None:
+        """Build NSApp + panel. MUST run on the main thread."""
+        if self._built:
             return
-        self._thread = threading.Thread(target=self._ui_main, daemon=True)
-        self._thread.start()
+        self._build_ui()
+        self._built = True
 
     def render(self, state: VoiceState, status: str = "", transcript: str = "") -> None:
         self._inbox.put(("state", state, status, transcript))
@@ -192,14 +195,14 @@ class OverlayController:
         self._inbox.put(("hide",))
 
     def stop(self) -> None:
-        self._inbox.put(("stop",))
+        self._inbox.put(("hide",))
 
     @property
     def state(self) -> VoiceState:
         return self._model.state
 
-    # -- UI thread ------------------------------------------------------
-    def _ui_main(self) -> None:
+    # -- main thread: build once, pump from the caller's loop ----------------
+    def _build_ui(self) -> None:
         from AppKit import (
             NSApplication,
             NSBackingStoreBuffered,
@@ -211,7 +214,6 @@ class OverlayController:
             NSWindowCollectionBehaviorStationary,
             NSWindowStyleMaskBorderless,
         )
-        from Foundation import NSDate, NSRunLoop
 
         app = NSApplication.sharedApplication()
         app.setActivationPolicy_(1)  # Accessory: no Dock icon, windows allowed
@@ -234,12 +236,8 @@ class OverlayController:
         self._view = view
         self._panel = panel
 
-        while not self._stopping:
-            self._pump()
-            NSRunLoop.currentRunLoop().runUntilDate_(
-                NSDate.dateWithTimeIntervalSinceNow_(1.0 / 30.0))
-
-    def _pump(self) -> None:
+    def pump_once(self) -> None:
+        """Drain inbox, expire holds, redraw. Call ~30x/sec from the main loop."""
         try:
             while True:
                 self._apply(self._inbox.get_nowait())
@@ -280,5 +278,3 @@ class OverlayController:
             model.hold_until = 0.0
             if self._panel is not None:
                 self._panel.orderOut_(None)
-        elif kind == "stop":
-            self._stopping = True

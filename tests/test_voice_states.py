@@ -103,13 +103,13 @@ def test_controller_hold_expiry_calls_on_return_or_hides():
     controller._model.hold_until = 0.0001
     import time
     time.sleep(0.01)
-    controller._pump()
+    controller.pump_once()
     assert calls == [True]
     controller._apply(("session", False))
     controller._apply(("state", VoiceState.ERROR, "Failed", "x"))
     controller._model.hold_until = 0.0001
     time.sleep(0.01)
-    controller._pump()
+    controller.pump_once()
     assert controller._model.hold_until == 0.0
 
 

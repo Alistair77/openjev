@@ -135,8 +135,10 @@ class VoiceAgent:
             outcome = self.handle_text(text)
             print(f"jev> intent={outcome['intent']} conf={outcome['confidence']} -> {outcome['report']['detail']}")
 
-    # -- live microphone mode ----------------------------------------------
+    # -- live microphone mode (main thread pumps overlay; hotkey runs behind) --
     def start(self) -> None:
+        import time
+
         from pynput import keyboard
 
         if self._want_overlay:
@@ -144,20 +146,22 @@ class VoiceAgent:
             if overlay_module.available():
                 self._overlay = overlay_module.OverlayController()
                 self._overlay.on_return = self._on_overlay_return
-                self._overlay.start()
+                self._overlay.start()  # builds on this (main) thread; AppKit requires it
             else:
                 print("(overlay unavailable: no GUI session — terminal output only)")
         print(f"push-to-talk: press {self.hotkey} to start/stop listening. Ctrl-C quits. "
               f"{'LIVE' if self.actions.live else 'dry-run (add --live to execute)'}")
+        listener = keyboard.GlobalHotKeys({self.hotkey: self.toggle})
+        listener.start()
         try:
-            with keyboard.GlobalHotKeys({self.hotkey: self.toggle}):
-                try:
-                    import time
-                    while True:
-                        time.sleep(0.2)
-                except KeyboardInterrupt:
-                    pass
+            while True:
+                if self._overlay is not None:
+                    self._overlay.pump_once()
+                time.sleep(1.0 / 30.0)
+        except KeyboardInterrupt:
+            pass
         finally:
+            listener.stop()
             self._stop_listening()
             if self._overlay is not None:
                 self._overlay.stop()
