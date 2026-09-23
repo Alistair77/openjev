@@ -20,6 +20,12 @@ def _pasteboard():
     return NSPasteboard.generalPasteboard()
 
 
+def _string_type():
+    """NSStringPboardType accessor (same indirection reason; Linux has no AppKit)."""
+    from AppKit import NSPasteboardTypeString
+    return NSPasteboardTypeString
+
+
 def _send_paste():
     """Cmd+V via pynput (indirection so tests never press real keys)."""
     from pynput.keyboard import Controller, Key
@@ -37,17 +43,17 @@ def _paste_via_clipboard(text: str) -> None:
     """
     import time
 
-    from AppKit import NSPasteboardTypeString
+    text_type = _string_type()
     board = _pasteboard()
-    previous = board.stringForType_(NSPasteboardTypeString)
+    previous = board.stringForType_(text_type)
     previous_types = board.types()
-    board.declareTypes_owner_([NSPasteboardTypeString], None)
-    board.setString_forType_(text, NSPasteboardTypeString)
+    board.declareTypes_owner_([text_type], None)
+    board.setString_forType_(text, text_type)
     _send_paste()
     time.sleep(0.4)  # let the target app consume the paste before restoring
-    board.declareTypes_owner_(list(previous_types or [NSPasteboardTypeString]), None)
+    board.declareTypes_owner_(list(previous_types or [text_type]), None)
     if previous:
-        board.setString_forType_(previous, NSPasteboardTypeString)
+        board.setString_forType_(previous, text_type)
 
 
 class MacActions:

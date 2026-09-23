@@ -65,6 +65,7 @@ def test_live_type_pastes_via_clipboard_not_keystrokes(monkeypatch):
             calls["writes"].append(text)
 
     monkeypatch.setattr(actions_module, "_pasteboard", lambda: FakeBoard())
+    monkeypatch.setattr(actions_module, "_string_type", lambda: "FakeType")
     monkeypatch.setattr(actions_module, "_send_paste", lambda: calls.setdefault("pasted", True))
     monkeypatch.setattr(actions_module, "focused_target",
                         lambda: {"role": "AXTextArea", "app": "Notes", "accessible": True})
