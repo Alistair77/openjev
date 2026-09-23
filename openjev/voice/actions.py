@@ -11,6 +11,8 @@ import subprocess
 import urllib.parse
 from typing import Any
 
+from openjev.voice.focus import delivery_decision, focused_target
+
 
 class MacActions:
     """Execute (or describe, when dry) on-screen actions."""
@@ -45,6 +47,10 @@ class MacActions:
     def _do_type_text(self, action: dict[str, Any]) -> dict[str, Any]:
         if not self.live:
             return {"ok": True, "dry": True, "detail": f"would type: {action['text']!r}"}
+        target = focused_target()
+        if delivery_decision(target["role"]) == "refuse":
+            where = f"{target['role']} in {target['app']}" if target["app"] else str(target["role"])
+            return {"ok": False, "detail": f"not in a text field (focused: {where}) — kept transcript, typed nothing"}
         from pynput.keyboard import Controller
 
         Controller().type(action["text"])

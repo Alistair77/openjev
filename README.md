@@ -191,7 +191,7 @@ openjev predict runs/demo/model.json --context "refund my duplicate payment" --o
 | Selective: accuracy at 50% coverage | **1.00** (0.75 at full coverage) | Abstaining on the least-confident half removes every error on this demo |
 | Shuffled-context control | acc **0.45**, log-loss 0.84 | Model beats control by 30 pts — signal is real, not bias |
 | Mean latency | **~0.09 ms** / row (p50 0.09, p99 0.10) | Trivial CPU cost; receipt in `docs/captures/latency.json` |
-| Unit tests / lint | **22/22 pytest passed**, `ruff` clean | `tests/` + contract + API + research + docs-fresh + presets + shortlist + email/lang |
+| Unit tests / lint | **63/63 pytest passed**, `ruff` clean | `tests/` + contract + API + research + docs-fresh + presets + shortlist + email/lang + voice/focus |
 
 **What fixed it:** v1 used length-normalized byte histograms whose products were ~1e-3, so
 gradients at the default learning rate were microscopic and training sat at chance
@@ -343,7 +343,7 @@ openjev/research/   model.py (OptionScorer v2 + temperature) · calibrate.py (gl
 openjev_ts/         TypeScript SDK (same envelope)
 web/                playground (index.html · app.js · styles.css)
 examples/           support_ticket.json (the demo used above)
-tests/              contract + local + API + research + calibrate + docs-fresh + presets + shortlist + email/lang (22 tests)
+tests/              contract + local + API + research + calibrate + docs-fresh + presets + shortlist + email/lang + voice/focus (63 tests)
 scripts/            benchmark_latency.py (p50/p90/p99 receipt)
 docs/captures/      verbatim live captures: health, evaluate, openapi, playground, training data/results, latency
 docs/img/           architecture.svg · lifecycle.svg · training_curve.svg (diagrams)
@@ -445,6 +445,28 @@ pixels were verified by code review + offscreen-attempt (window creation traps i
 headless process), not by screenshot — first live run, watch for a rendering glitch
 and report it. The decision layer underneath is fully tested: 11/11 sample utterances
 classify correctly, gibberish abstains (`tests/test_voice.py`, 17 tests).
+
+### Latency + safety practices learned from FluidVoice (design only, no code taken)
+
+[FluidVoice](https://github.com/altic-dev/FluidVoice) is a mature GPL-3.0 Swift
+dictation app — its license forbids porting code into this Apache-2.0 repo, so what
+follows is reimplemented from their published findings (especially
+`DICTATION_LATENCY_INVESTIGATION.md`), idea-level only:
+
+- **Hide by alpha, not orderOut.** Every WindowServer fence costs 70–300 ms; our
+  overlay now hides instantly (alpha 0, microseconds) and pays the slow `orderOut`
+  once, deferred to the next show/shutdown.
+- **Never redraw the menu-bar icon or menu unless the state changed.** A redundant
+  icon assignment costs a redraw + fence (~118 ms in their measurements); ours now
+  skips identical updates at 30 fps polling.
+- **Pump only while visible.** Hidden overlay costs zero redraws.
+- **Focus-aware typing** (`openjev/voice/focus.py`): before live keystrokes, the
+  focused Accessibility role is checked — buttons/menus/static text refuse with
+  "not in a text field", transcript kept, nothing typed. Unknown roles (or no
+  Accessibility permission) proceed as before. Dry-run never touches Accessibility.
+- **Per-utterance timings** in every report (`classify_ms`, `execute_ms`): the
+  "decisions have to be quick" requirement stays measured — classify is ~0.1 ms
+  here, execution is the app-launch cost, STT dominates end to end.
 
 ---
 

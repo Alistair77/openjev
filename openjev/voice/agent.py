@@ -98,32 +98,53 @@ class VoiceAgent:
         return "Didn't catch an action…"
 
     def _handle_utterance(self, text: str) -> dict:
-        """Full pipeline for one utterance: TRANSCRIBING -> EXECUTING -> SUCCESS|ERROR."""
+        """Full pipeline for one utterance: TRANSCRIBING -> EXECUTING -> SUCCESS|ERROR.
+
+        The returned report carries `timings` (classify_ms, execute_ms) so the
+        "decisions have to be quick" requirement stays measured, not vibed.
+        """
+        import time
+
         if self.on_heard is not None:
             self.on_heard(text)
+        started = time.perf_counter()
         self._set_state(VoiceState.TRANSCRIBING, status="Heard you…", transcript=text)
         result = classify(text, self.confidence)
+        classify_ms = (time.perf_counter() - started) * 1000
         if result["intent"] is None or result["action"].get("action") == "unheard":
             self._set_state(VoiceState.LISTENING, status="Listening…", transcript=text)
             return {"heard": text, "intent": None, "confidence": round(result["confidence"], 3) + 0.0,
+                    "timings": {"classify_ms": round(classify_ms, 3), "execute_ms": 0.0},
                     "report": {"ok": False, "detail": "unheard — still listening"}}
         self._set_state(VoiceState.EXECUTING, status=self._describe(result), transcript=text)
+        exec_started = time.perf_counter()
         report = self.actions.run(result["action"])
+        execute_ms = (time.perf_counter() - exec_started) * 1000
         if report.get("ok"):
             self._set_state(VoiceState.SUCCESS, status="Done ✓", transcript=text)
         else:
             self._set_state(VoiceState.ERROR, status="Failed — still listening", transcript=text)
         return {"heard": text, "intent": result["intent"],
                 "confidence": round(result["confidence"], 3) + 0.0,  # avoid -0.0 display
+                "timings": {"classify_ms": round(classify_ms, 3),
+                            "execute_ms": round(execute_ms, 3)},
                 "report": report}
 
     # -- text mode (no mic; demo + tests of the full pipeline) -------------
     def handle_text(self, text: str) -> dict[str, Any]:
         """Classify + execute one typed utterance. Returns the full report."""
+        import time
+
+        started = time.perf_counter()
         result = classify(text, self.confidence)
+        classify_ms = (time.perf_counter() - started) * 1000
+        exec_started = time.perf_counter()
         report = self.actions.run(result["action"])
+        execute_ms = (time.perf_counter() - exec_started) * 1000
         return {"heard": text, "intent": result["intent"],
                 "confidence": round(result["confidence"], 3) + 0.0,
+                "timings": {"classify_ms": round(classify_ms, 3),
+                            "execute_ms": round(execute_ms, 3)},
                 "report": report}
 
     def run_text_mode(self) -> None:

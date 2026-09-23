@@ -62,6 +62,7 @@ class _OverlayModel:
     transcript: str = ""
     session_active: bool = False
     hold_until: float = 0.0
+    visible: bool = False  # panel composited; hide() clears alpha instantly, orderOut deferred
 
 
 def _make_view_class():
@@ -196,6 +197,7 @@ class OverlayController:
 
     def stop(self) -> None:
         self._inbox.put(("hide",))
+        self._inbox.put(("orderout",))  # final deferred fence, paid once at shutdown
 
     @property
     def state(self) -> VoiceState:
@@ -237,7 +239,13 @@ class OverlayController:
         self._panel = panel
 
     def pump_once(self) -> None:
-        """Drain inbox, expire holds, redraw. Call ~30x/sec from the main loop."""
+        """Drain inbox, expire holds, redraw. Call ~30x/sec from the main loop.
+
+        Redraws only while the panel is visible: hidden panels cost nothing.
+        Hide itself is alpha-only (microseconds); the slow orderOut fence is
+        deferred to the next show/stop. Finding ported from FluidVoice's
+        dictation-latency investigation (ideas only, original code).
+        """
         try:
             while True:
                 self._apply(self._inbox.get_nowait())
@@ -255,7 +263,7 @@ class OverlayController:
                 self.on_return()
             elif not model.session_active:
                 self._apply(("hide",))
-        if self._view is not None:
+        if model.visible and self._view is not None:
             self._view.setNeedsDisplay_(True)
 
     def _apply(self, message: tuple) -> None:
@@ -271,10 +279,18 @@ class OverlayController:
                 model.hold_until = time.monotonic() + (
                     SUCCESS_HOLD_SECONDS if state is VoiceState.SUCCESS else ERROR_HOLD_SECONDS)
             if self._panel is not None:
+                if not model.visible:
+                    self._panel.orderOut_(None)  # deferred fence from an earlier hide
+                self._panel.setAlphaValue_(1.0)
                 self._panel.orderFrontRegardless()
+            model.visible = True
         elif kind == "session":
             model.session_active = bool(message[1])
         elif kind == "hide":
             model.hold_until = 0.0
+            model.visible = False
+            if self._panel is not None:
+                self._panel.setAlphaValue_(0.0)  # instant; orderOut deferred to next show/stop
+        elif kind == "orderout":
             if self._panel is not None:
                 self._panel.orderOut_(None)

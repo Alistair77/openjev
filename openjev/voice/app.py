@@ -46,6 +46,8 @@ class VoiceMenuApp:
                                 stt=stt, overlay=False)
         self.agent.on_heard = self.on_heard
         self.last_heard = ""
+        self._last_icon = None
+        self._last_menu_sig = None
         self._status_item: Any = None
         self._status_menu: Any = None
         self._menu_items: dict[str, Any] = {}
@@ -110,6 +112,11 @@ class VoiceMenuApp:
         self.refresh_menu()
 
     def _set_icon(self, state: VoiceState) -> None:
+        # Assigning a fresh NSImage every tick costs a status-item redraw +
+        # WindowServer fence (~118 ms in FluidVoice's measurements); skip when unchanged.
+        if state == self._last_icon:
+            return
+        self._last_icon = state
         from AppKit import NSImage
         image = NSImage.imageWithSystemSymbolName_accessibilityDescription_(
             symbol_for(state), "voice state")
@@ -118,6 +125,11 @@ class VoiceMenuApp:
 
     def refresh_menu(self) -> None:
         live = self.agent.actions.live
+        sig = (self.agent.listening, live, self.last_heard,
+               self.agent._overlay is not None)
+        if sig == self._last_menu_sig:  # same skip-redundant-refresh reasoning as icons
+            return
+        self._last_menu_sig = sig
         self._menu_items["status"].setTitle_(status_text(self.agent.listening, live).split("\n")[0])
         self._menu_items["toggle"].setTitle_(
             "Stop Listening" if self.agent.listening else "Start Listening")
@@ -186,7 +198,7 @@ class _PumpTarget:
                         overlay.pump_once()
                     self._app._set_icon(self._app.agent._voice_state)
                     self._app.refresh_menu()
-                except Exception:
+                except Exception:  # noqa: BLE001 - UI errors must never trap the runloop
                     import traceback
                     traceback.print_exc()  # UI errors must never trap the runloop
 
