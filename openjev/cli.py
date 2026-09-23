@@ -80,10 +80,11 @@ def voice(
     text: Annotated[bool, typer.Option(help="Text mode: type utterances, no microphone needed")] = False,
     stt: Annotated[str, typer.Option(help="sphinx (offline) or google (needs network)")] = "sphinx",
     confidence: float = 0.30,
+    overlay: Annotated[bool, typer.Option("--overlay/--no-overlay", help="Floating state overlay (live mic mode only)")] = True,
 ) -> None:
     """Push-to-talk Mac voice control: hotkey toggles listening, utterances execute."""
     from openjev.voice.agent import VoiceAgent
-    agent = VoiceAgent(hotkey=hotkey, live=live, confidence=confidence, stt=stt)
+    agent = VoiceAgent(hotkey=hotkey, live=live, confidence=confidence, stt=stt, overlay=overlay)
     if text:
         agent.run_text_mode()
     else:

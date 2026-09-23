@@ -411,11 +411,38 @@ Understood commands: **open apps** ("open brave browser", "open the notes app"),
 Anything unheard-of abstains and is skipped — gibberish never clicks anything.
 Dry-run is the default; `--live` executes. `allowed_apps` can restrict which apps open.
 
-Honest limits: the mic path itself (hotkey capture, live transcription) runs on your
-Mac — it was built and import-verified here, not microphone-tested here (no mic in this
-environment). Offline Sphinx recognition is fast but less accurate than cloud STT; use
-`--stt google` when it matters. The decision layer is fully tested: 11/11 sample
-utterances classify correctly, gibberish abstains (`tests/test_voice.py`, 17 tests).
+### Floating overlay + state machine (live mic mode)
+
+`openjev voice --live` shows a small top-center pill (native AppKit, click-through,
+never steals focus; `--no-overlay` disables it). Every utterance walks a real,
+tested state machine (`openjev/voice/states.py`):
+
+![Voice overlay states](docs/img/voice-overlay.svg)
+
+`LISTENING` (orb pulses, transcript below) → `TRANSCRIBING` → `EXECUTING`
+→ `SUCCESS` (green check, 0.9s) or `ERROR` (red X, 1.6s) → back to `LISTENING`.
+Unheard input returns to listening with neither. Illegal transitions raise instead
+of silently mis-rendering (`tests/test_voice_states.py` walks the full graph).
+
+### Mic test procedure (run on your Mac — no mic here)
+
+This environment has no microphone and its process cannot create windows, so the
+live path is code-verified but not hardware-verified. Run this, in order:
+
+1. `openjev voice --text` — type 5 commands, confirm intents + dry-run lines. ✅ verified here
+2. `openjev voice` (mic, still dry-run) — press `<cmd>+<shift>+v`, say "open notes app",
+   confirm the overlay appears and the terminal shows the dry-run line. Press hotkey again.
+3. Grant **Microphone + Accessibility** when macOS prompts (both required).
+4. `openjev voice --live` — say "open notes app", confirm Notes opens + green check.
+   Say gibberish, confirm no action + still listening. Say "open terminal app" with the
+   default allowlist off… note: allowlist is opt-in; without it any named app opens.
+5. If Sphinx mishears you consistently, retry with `--stt google`.
+
+Honest limits: offline Sphinx is fast but less accurate than cloud STT; the overlay's
+pixels were verified by code review + offscreen-attempt (window creation traps in a
+headless process), not by screenshot — first live run, watch for a rendering glitch
+and report it. The decision layer underneath is fully tested: 11/11 sample utterances
+classify correctly, gibberish abstains (`tests/test_voice.py`, 17 tests).
 
 ---
 
